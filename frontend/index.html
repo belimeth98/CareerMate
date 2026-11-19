@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#142638">
+  <title>CareerMate · 나의 다음 커리어</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+<svg class="icon-sprite" aria-hidden="true"><defs>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2V11.5a9.5 9.5 0 0 1 19 0Z"/><path d="M7 10h10M7 14h6"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18M7 15h3m4 0h3M7 18h3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/></symbol>
+  <symbol id="i-log" viewBox="0 0 24 24"><path d="M8 5h13M8 12h13M8 19h13"/><circle cx="3" cy="5" r="1"/><circle cx="3" cy="12" r="1"/><circle cx="3" cy="19" r="1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v16M3 3h5a4 4 0 0 1 4 3 4 4 0 0 1 4-3h5v16h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3V3Z"/></symbol>
+</defs></svg>
+
+<aside class="sidebar">
+  <a class="brand" href="#chat" aria-label="CareerMate 홈"><span class="brand-mark">c<span>m</span></span><span class="brand-name">CareerMate<small>나의 다음 커리어</small></span></a>
+  <div class="workspace-label">MY WORKSPACE</div>
+  <nav aria-label="주 메뉴">
+    <button class="nav-item active" data-view="chat" aria-label="AI 취업 상담"><svg><use href="#i-chat"/></svg><span>AI 취업 상담</span><small>AI</small></button>
+    <button class="nav-item" data-view="plans" aria-label="지원 계획"><svg><use href="#i-calendar"/></svg><span>지원 계획</span><small id="nav-plan-count">0</small></button>
+    <button class="nav-item" data-view="profile" aria-label="내 프로필"><svg><use href="#i-user"/></svg><span>내 프로필</span></button>
+  </nav>
+  <div class="sidebar-guide"><svg><use href="#i-book"/></svg><h3>오늘의 준비가<br>내일의 가능성으로.</h3><p>현재 역량과 성장 계획을<br>함께 살펴보세요.</p><button class="text-button" data-view="profile">나의 역량 정리하기</button></div>
+  <div class="sidebar-bottom"><span id="server-dot" class="status-dot"></span><span id="server-status">서버 연결 확인 중</span><span class="local-label">LOCAL</span></div>
+</aside>
+
+<main>
+  <header class="topbar"><div><span class="breadcrumb">나의 취업 준비 공간</span><h1 id="page-title">AI 취업 상담</h1></div><div class="top-actions"><span class="time-zone">한국 시간 · KST</span><button class="profile-chip" data-view="profile"><span class="avatar"><svg><use href="#i-user"/></svg></span><span id="profile-chip-label">프로필 설정</span></button></div></header>
+  <div class="page-content">
+  <section id="chat-view" class="view">
+    <div class="hero"><div><span class="eyebrow">YOUR NEXT CHAPTER</span><h2>가능성을, <em>다음 기회로.</em></h2><p>나의 역량에 맞는 공고를 찾고, 다음 준비를 계획해 보세요.</p><div class="hero-tags"><span>현재·미래 적합도 비교</span><span>조건을 기억하는 상담</span><span>근거를 확인하는 추천</span></div></div><div class="hero-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><div class="art-card"><svg><use href="#i-spark"/></svg><span>NEXT STEP</span><div class="art-bars"><b></b><b></b><b></b><b></b></div><i></i></div><span class="art-check"><svg><use href="#i-check"/></svg></span></div></div>
+    <div class="chat-layout">
+      <section class="panel chat-panel" aria-label="AI 대화">
+        <div class="panel-heading"><div class="heading-with-icon"><span class="icon-box"><svg><use href="#i-spark"/></svg></span><div><h3>커리어 메이트</h3><p>조건에 맞는 기회를 함께 찾아요</p></div></div><button id="new-chat" class="button small secondary">새 대화</button></div>
+        <div class="chat-settings"><span id="chat-profile">프로필 없이 상담 중</span><label class="switch-label"><input id="assess-fit" type="checkbox" checked>적합도 함께 계산</label></div>
+        <div id="messages" class="messages" aria-live="polite">
+          <div id="welcome" class="welcome"><div class="welcome-icon"><svg><use href="#i-spark"/></svg></div><h3>어떤 기회를 찾고 계신가요?</h3><p>희망 직무와 지역을 알려주세요.<br>마감 조건이나 자격 정보도 함께 확인할 수 있어요.</p><div class="suggestions"><button data-prompt="강원 지역 정규직 약사 공고를 1건 찾아줘."><strong>조건에 맞는 공고 찾기</strong><span>강원 · 정규직 · 약사</span></button><button data-prompt="내 프로필에 맞는 공고를 1건 찾고 필수 자격도 확인해줘."><strong>나에게 맞는 공고 추천</strong><span>저장한 프로필 활용</span></button></div></div>
+        </div>
+        <div id="chat-loading" class="processing" hidden><span class="spinner"></span><div><strong>요청을 처리하고 있습니다</strong><small>공고 조회와 분석에 시간이 걸릴 수 있어요. 완료 후 실행 이력이 표시됩니다.</small></div></div>
+        <form id="chat-form" class="composer"><label for="message-input" class="sr-only">상담 메시지</label><textarea id="message-input" maxlength="4000" rows="2" placeholder="예: 강원 지역 정규직 약사 공고를 찾아줘" required></textarea><div class="composer-bottom"><span>Enter로 전송 · Shift+Enter로 줄바꿈</span><button id="send-message" class="button primary" type="submit"><svg><use href="#i-spark"/></svg>보내기</button></div></form>
+      </section>
+      <aside class="panel trace-panel" aria-label="Agent 실행 기록"><div class="panel-heading"><div class="heading-with-icon"><svg class="standalone-icon"><use href="#i-log"/></svg><h3>실행 기록</h3></div><span id="run-status" class="badge neutral">대기</span></div><div class="trace-controls"><label for="log-session">대화 선택</label><select id="log-session"><option value="">현재 대화</option></select><div class="trace-control-actions"><button id="refresh-logs" class="text-button">새로고침</button><button id="delete-logs" class="text-button danger" disabled>기록 삭제</button></div></div><div id="trace" class="trace"><div class="trace-empty"><svg><use href="#i-log"/></svg><strong>추천의 과정을 확인하세요</strong><p>실행 단계와 도구 호출,<br>재계획 이유를 순서대로 보여드려요.</p></div></div></aside>
+    </div>
+    <div id="job-results" class="job-results" aria-live="polite"></div>
+  </section>
+
+  <section id="plans-view" class="view" hidden>
+    <div class="section-intro"><div><span class="eyebrow">MAKE IT HAPPEN</span><h2>한 걸음씩, 준비를 계획하세요.</h2><p>지원 마감부터 자격시험 준비까지, 나의 다음 일정을 관리해요.</p></div><button id="new-plan" class="button primary"><svg><use href="#i-plus"/></svg>새 계획</button></div>
+    <div id="plan-profile-needed" class="notice" hidden>계획을 저장하려면 프로필을 먼저 입력해 주세요. <button class="text-button" data-view="profile">프로필 입력</button></div>
+    <div class="plans-layout"><section><div class="list-toolbar"><h3>나의 지원 계획 <span id="plan-total" class="count">0</span></h3><label class="sr-only" for="plan-filter">계획 상태 필터</label><select id="plan-filter"><option value="all">전체 상태</option><option value="planned">예정</option><option value="in_progress">진행 중</option><option value="completed">완료</option><option value="cancelled">취소</option></select></div><div id="plan-list" class="plan-list"></div></section>
+      <section class="panel form-panel"><div class="panel-heading"><h3 id="plan-form-title">새 지원 계획</h3><span class="badge soft">KST</span></div><form id="plan-form" class="form-body"><div id="linked-job" class="linked-job" hidden></div><label>계획 제목<input name="title" required maxlength="200" placeholder="예: 지원서 작성 및 제출"></label><div class="form-row"><label>유형<select name="plan_type"><option value="application">입사 지원</option><option value="portfolio">포트폴리오</option><option value="coding_test">코딩 테스트</option><option value="cert_registration">자격시험 접수</option><option value="other">기타 준비</option></select></label><label>상태<select name="status"><option value="planned">예정</option><option value="in_progress">진행 중</option><option value="completed">완료</option><option value="cancelled">취소</option></select></label></div><label>일정 방식<select id="schedule-kind"><option value="timed">시간 지정 일정</option><option value="date">마감 날짜만 지정</option></select></label><div id="timed-fields"><label>시작 일시<input name="start_at" type="datetime-local"></label><label>종료 일시<input name="end_at" type="datetime-local"></label></div><label id="due-date-label">마감일 <span class="muted">선택</span><input name="due_date" type="date"></label><label>연결할 성장 계획 <span class="muted">선택</span><select name="growth_plan_id" id="plan-growth"><option value="">연결하지 않음</option></select></label><label>메모<textarea name="notes" rows="3" maxlength="3000" placeholder="준비할 내용이나 확인할 사항을 적어주세요"></textarea></label><div id="plan-warning" class="notice warning" hidden aria-live="polite"></div><p class="form-help">시간이 겹쳐도 저장할 수 있어요. 저장 결과에 겹치는 일정을 함께 안내합니다.</p><button id="save-plan" class="button primary wide" type="submit">계획 저장</button></form></section>
+    </div>
+  </section>
+
+  <section id="profile-view" class="view" hidden>
+    <div class="section-intro"><div><span class="eyebrow">KNOW YOUR POTENTIAL</span><h2>지금의 나와, 앞으로의 나.</h2><p>현재 보유한 역량과 앞으로의 성장 계획을 구분해 입력해 주세요.</p></div><button id="new-profile" class="button secondary"><svg><use href="#i-plus"/></svg>새 프로필</button></div>
+    <div class="profile-layout"><section class="panel"><div class="panel-heading"><div><h3>현재 프로필</h3><p>보유한 역량을 기준으로 현재 적합도를 계산해요</p></div><svg class="standalone-icon"><use href="#i-user"/></svg></div><form id="profile-form" class="form-body"><label>저장된 프로필<select id="profile-select"><option value="">새 프로필 입력</option></select></label><div class="form-row"><label>희망 직무<input name="desired_role" required maxlength="100" placeholder="예: 백엔드 개발자, 약사"></label><label>경력 개월 수 <span class="muted">선택</span><input name="career_months" type="number" min="0" max="1200" placeholder="미입력 시 확인 필요"></label></div><div class="form-row"><label>희망 지역<input name="preferred_locations" placeholder="예: 서울, 경기"></label><label>희망 고용형태<input name="preferred_employment_types" placeholder="예: 정규직"></label></div><label>현재 보유 기술<input name="skills" placeholder="예: Python, FastAPI, SQL"></label><label>현재 보유 자격·면허<input name="certifications" placeholder="예: 정보처리기사, 약사 면허증"></label><p class="form-help">여러 항목은 쉼표로 구분해 주세요. 확인되지 않은 조건은 추측해서 채우지 않습니다.</p><button id="save-profile" type="submit" class="button primary wide">프로필 저장</button></form></section>
+    <section class="panel"><div class="panel-heading"><div><h3>성장 계획</h3><p>공고 마감 전 완료할 계획을 미래 적합도에 반영해요</p></div><span class="badge soft">FUTURE</span></div><form id="growth-form" class="form-body compact-form"><div class="form-row"><label>구분<select name="plan_type"><option value="skill">기술 학습</option><option value="certification">자격 취득</option><option value="project">프로젝트</option></select></label><label>완료 목표일<input name="target_date" type="date" required></label></div><label>계획 이름<input name="target_name" maxlength="200" required placeholder="예: 정보처리기사, FastAPI 프로젝트"></label><label>새로 얻을 기술<input name="expected_skills" placeholder="예: FastAPI, Docker"></label><button id="save-growth" class="button secondary wide" type="submit"><svg><use href="#i-plus"/></svg>성장 계획 추가</button></form><div id="growth-list" class="growth-list"></div></section></div>
+  </section>
+  <footer class="page-footer"><span>CareerMate · 더 나은 다음을 위한 준비</span><span>추천 점수는 규칙 기반 참고 값이며, 합격 확률이 아닙니다.</span></footer>
+  </div>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<dialog id="confirm-dialog"><form method="dialog"><h3 id="confirm-title">삭제하시겠어요?</h3><p id="confirm-message"></p><div class="dialog-actions"><button class="button secondary" value="cancel">취소</button><button class="button destructive" value="delete">삭제</button></div></form></dialog>
+</body></html>

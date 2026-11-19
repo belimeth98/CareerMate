@@ -1,0 +1,139 @@
+{
+  "search_jobs": {
+    "name": "search_jobs",
+    "description": "잡알리오 외부 API의 공고를 갱신·검색하고 상세 조회용 DB id를 반환한다.\n\n    refresh의 기본값은 True다. 같은 요청의 재계획에서는 False로 이미 확보한\n    후보를 재사용한다. 외부 API 실패는 오류로 반환하며 정상 0건과 구분한다.",
+    "input_schema": {
+      "description": "잡알리오 외부 API의 공고를 갱신·검색하고 상세 조회용 DB id를 반환한다.\n\nrefresh의 기본값은 True다. 같은 요청의 재계획에서는 False로 이미 확보한\n후보를 재사용한다. 외부 API 실패는 오류로 반환하며 정상 0건과 구분한다.",
+      "properties": {
+        "keyword": {
+          "default": "",
+          "title": "Keyword",
+          "type": "string"
+        },
+        "region": {
+          "default": "",
+          "title": "Region",
+          "type": "string"
+        },
+        "employment_type": {
+          "default": "",
+          "title": "Employment Type",
+          "type": "string"
+        },
+        "ncs_category": {
+          "default": "",
+          "title": "Ncs Category",
+          "type": "string"
+        },
+        "career_type": {
+          "default": "",
+          "title": "Career Type",
+          "type": "string"
+        },
+        "ongoing_only": {
+          "default": true,
+          "title": "Ongoing Only",
+          "type": "boolean"
+        },
+        "limit": {
+          "default": 20,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "refresh": {
+          "default": true,
+          "title": "Refresh",
+          "type": "boolean"
+        }
+      },
+      "title": "search_jobs",
+      "type": "object"
+    }
+  },
+  "get_job_detail": {
+    "name": "get_job_detail",
+    "description": "search_jobs에서 받은 DB id로 공고 상세와 필수·우대 자격을 조회한다.",
+    "input_schema": {
+      "description": "search_jobs에서 받은 DB id로 공고 상세와 필수·우대 자격을 조회한다.",
+      "properties": {
+        "job_id": {
+          "title": "Job Id",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "job_id"
+      ],
+      "title": "get_job_detail",
+      "type": "object"
+    }
+  },
+  "search_ncs_skills": {
+    "name": "search_ncs_skills",
+    "description": "확인된 NCS 8자리 직무 세분류 코드로 최신 차수의 능력단위를 조회한다.",
+    "input_schema": {
+      "description": "확인된 NCS 8자리 직무 세분류 코드로 최신 차수의 능력단위를 조회한다.",
+      "properties": {
+        "ncs_code": {
+          "title": "Ncs Code",
+          "type": "string"
+        },
+        "limit": {
+          "default": 20,
+          "title": "Limit",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ncs_code"
+      ],
+      "title": "search_ncs_skills",
+      "type": "object"
+    }
+  },
+  "get_cert_schedule": {
+    "name": "get_cert_schedule",
+    "description": "연도와 자격구분으로 시험 일정을 조회한다. 특정 종목은 확인된 종목코드를 전달한다.",
+    "input_schema": {
+      "description": "연도와 자격구분으로 시험 일정을 조회한다. 특정 종목은 확인된 종목코드를 전달한다.",
+      "properties": {
+        "year": {
+          "title": "Year",
+          "type": "integer"
+        },
+        "qualification_type": {
+          "default": "T",
+          "title": "Qualification Type",
+          "type": "string"
+        },
+        "qualification_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualification Code"
+        },
+        "page": {
+          "default": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "page_size": {
+          "default": 10,
+          "title": "Page Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "year"
+      ],
+      "title": "get_cert_schedule",
+      "type": "object"
+    }
+  }
+}

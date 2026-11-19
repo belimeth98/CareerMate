@@ -42,7 +42,7 @@ REASONS = {
 ARGUMENT_FIELDS = {
     "keyword", "region", "employment_type", "career_type", "ncs_category", "limit",
     "job_id", "ncs_code", "year", "qualification_type", "qualification_code",
-    "ongoing_only", "page", "page_size",
+    "ongoing_only", "page", "page_size", "refresh",
 }
 INTEGER_FIELDS = {
     "seq", "replan_count", "missing_count", "candidate_count", "eligible_count",
@@ -59,6 +59,7 @@ CHOICES = {
     "current_eligibility": {"met", "unmet", "unknown"},
     "future_eligibility": {"met", "unmet", "unknown"},
     "error_code": ERROR_CODES,
+    "data_source": {"external_api", "cache"},
 }
 
 
@@ -97,7 +98,7 @@ def _safe_payload(payload: dict) -> dict:
                 if name in {"limit", "job_id", "year", "page", "page_size"}:
                     if type(argument) is int and argument > 0:
                         arguments[name] = argument
-                elif name == "ongoing_only" and type(argument) is bool:
+                elif name in {"ongoing_only", "refresh"} and type(argument) is bool:
                     arguments[name] = argument
                 # All free text and unrecognised fields are excluded before dispatch.
             safe[key] = arguments

@@ -144,6 +144,7 @@ class ExecutionLoggingTests(unittest.TestCase):
             result = self.session(model).invoke("replan", "마감 조건")
         self.assert_complete(result)
         self.assertEqual([args["limit"] for args in tool.calls], [1, 11, 21])
+        self.assertEqual([args["refresh"] for args in tool.calls], [True, False, False])
         self.assertEqual(result["replan_count"], 2)
         self.assertEqual(len(self.payloads("replan_requested")), 2)
         self.assertEqual(result["search_summary"]["deadline_status"], "unmet")

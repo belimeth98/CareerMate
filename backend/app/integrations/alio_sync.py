@@ -7,7 +7,7 @@ from backend.app.db.database import PROJECT_ROOT, connect_db
 from backend.app.integrations.alio import AlioError, fetch_jobs, normalize_job, upsert_job
 
 
-def collect_open_jobs(page_size: int = 50) -> list[dict]:
+def collect_open_jobs(page_size: int = 50, *, quiet: bool = False) -> list[dict]:
     jobs_by_id = {}
 
     for page in count(1):
@@ -21,7 +21,8 @@ def collect_open_jobs(page_size: int = 50) -> list[dict]:
         for job in batch:
             jobs_by_id[job["source_job_id"]] = job
 
-        print(f"{page}페이지 {len(batch)}건 | 누적 {len(jobs_by_id)}건")
+        if not quiet:
+            print(f"{page}페이지 {len(batch)}건 | 누적 {len(jobs_by_id)}건")
 
         if len(batch) < page_size:
             break

@@ -7,6 +7,7 @@ from langchain_core.tools import tool
 from backend.app.db.database import connect_db
 from backend.app.db.job_search import search_jobs as search_cached_jobs
 from backend.app.integrations import alio
+from backend.app.integrations.alio_sync import collect_open_jobs
 
 
 def _failure(code: str, message: str) -> dict:
@@ -22,12 +23,26 @@ def search_jobs(
     career_type: str = "",
     ongoing_only: bool = True,
     limit: int = 20,
+    refresh: bool = True,
 ) -> dict:
-    """키워드, 지역, 고용형태, NCS 분류, 경력으로 공고를 찾고 상세 조회에 쓸 DB id를 반환한다."""
+    """잡알리오 외부 API의 공고를 갱신·검색하고 상세 조회용 DB id를 반환한다.
+
+    refresh의 기본값은 True다. 같은 요청의 재계획에서는 False로 이미 확보한
+    후보를 재사용한다. 외부 API 실패는 오류로 반환하며 정상 0건과 구분한다.
+    """
     if limit < 1:
         return _failure("INVALID_INPUT", "limit은 1 이상이어야 합니다.")
 
     try:
+        if refresh:
+            # Collect completely before writing: failed/partial snapshots cannot
+            # close existing jobs or masquerade as a successful empty search.
+            jobs_from_api = collect_open_jobs(quiet=True)
+            with closing(connect_db()) as db, db:
+                db.execute("UPDATE job_posting SET is_open = 0 WHERE source = 'alio' AND board_id = 'alio'")
+                for job in jobs_from_api:
+                    alio.upsert_job(db, job)
+
         jobs = search_cached_jobs(
             keyword=keyword,
             region=region,
@@ -37,13 +52,20 @@ def search_jobs(
             ongoing_only=ongoing_only,
             limit=limit,
         )
+    except alio.AlioError as error:
+        return _failure(error.code, str(error))
     except (sqlite3.Error, json.JSONDecodeError):
         return _failure("DATABASE_ERROR", "저장된 공고를 읽지 못했습니다.")
+    except (AttributeError, KeyError, TypeError, ValueError):
+        return _failure("UPSTREAM_INVALID_RESPONSE", "공고 목록 응답 형식을 확인하지 못했습니다.")
 
     if not jobs:
         return _failure("NO_RESULT", "검색 조건에 맞는 공고가 없습니다.")
 
-    return {"ok": True, "data": {"jobs": jobs, "count": len(jobs)}}
+    return {"ok": True, "data": {
+        "jobs": jobs, "count": len(jobs),
+        "data_source": "external_api" if refresh else "cache",
+    }}
 
 
 @tool
