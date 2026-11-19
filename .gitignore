@@ -1,0 +1,53 @@
+# 환경변수 및 API 키
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# Python 가상환경
+.venv/
+venv/
+env/
+ENV/
+
+# Python 캐시 및 컴파일 파일
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 테스트 및 코드 검사 캐시
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# 테스트 커버리지
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Python 빌드 결과
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# 로그
+*.log
+
+# 로컬 IDE 설정
+.vscode/
+.idea/
+
+# 에디터 임시 파일
+*.swp
+*.swo
+*~
+
+# 운영체제 생성 파일
+.DS_Store
+Thumbs.db
+Desktop.ini
