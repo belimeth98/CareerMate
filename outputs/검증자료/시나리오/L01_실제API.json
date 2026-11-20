@@ -1,0 +1,342 @@
+{
+  "case": "L01",
+  "mode": "actual GMS gpt-6-luna + actual ALIO",
+  "request": "강원 정규직 약사 공고 1건 검색해줘",
+  "duration_seconds": 12.646,
+  "completed": true,
+  "response": {
+    "session_id": "live-submission",
+    "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+    "answer": "### 강원 정규직 약사 공고\n\n- **근로복지공단** — [동해병원 의료직(약사) 4급 채용 공고](https://www.comwel.or.kr/recruit/hp/main.do)\n- 근무 지역: 강원\n- 고용 형태: 정규직\n- 경력: 신입\n- 마감일: **2026년 11월 30일**\n\n공고의 세부 자격 요건과 제출 서류는 링크에서 확인해 주세요.",
+    "analysis": {
+      "intents": [
+        "search_jobs"
+      ],
+      "keyword": "약사",
+      "region": "강원",
+      "employment_type": "정규직",
+      "limit": 1
+    },
+    "used_previous_context": false,
+    "jobs": [
+      {
+        "id": 39,
+        "source": "alio",
+        "board_id": "alio",
+        "source_job_id": "307237",
+        "company": "근로복지공단",
+        "title": "[동해병원] 의료직(약사) 4급 채용 공고",
+        "location": [
+          "강원"
+        ],
+        "employment_type": [
+          "정규직"
+        ],
+        "career_type": [
+          "신입"
+        ],
+        "ncs_categories": [
+          "보건.의료"
+        ],
+        "deadline": "2026-11-30",
+        "is_open": 1,
+        "job_url": "https://www.comwel.or.kr/recruit/hp/main.do",
+        "rss_summary": null
+      }
+    ],
+    "matches": [],
+    "excluded_jobs": [],
+    "tool_calls": [
+      {
+        "tool": "search_jobs",
+        "status": "ok",
+        "error_code": null
+      }
+    ],
+    "search_summary": {
+      "search_status": "ok",
+      "deadline_status": "not_requested",
+      "candidate_count": 1,
+      "eligible_count": 1,
+      "unmet_count": 0,
+      "unknown_count": 0
+    },
+    "replan_count": 0,
+    "events": [
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "run_started",
+        "created_at": "2026-11-20T04:37:52.171505+00:00",
+        "duration_ms": null,
+        "payload": {
+          "seq": 1
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:52.178491+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "seq": 2
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "intent_decided",
+        "created_at": "2026-11-20T04:37:53.501211+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "intents": [
+            "search_jobs"
+          ],
+          "used_previous_context": false,
+          "reason_code": "tool_request",
+          "reason": "요청을 처리할 조회 도구가 필요합니다.",
+          "seq": 3
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:53.501211+00:00",
+        "duration_ms": 1329,
+        "payload": {
+          "stage": "analyze",
+          "status": "completed",
+          "intents": [
+            "search_jobs"
+          ],
+          "used_previous_context": false,
+          "reason_code": "tool_request",
+          "reason": "요청을 처리할 조회 도구가 필요합니다.",
+          "seq": 4
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "route_decided",
+        "created_at": "2026-11-20T04:37:53.515478+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "next_stage": "plan",
+          "reason_code": "tool_request",
+          "reason": "요청을 처리할 조회 도구가 필요합니다.",
+          "seq": 5
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:53.518481+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "plan",
+          "seq": 6
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "plan_created",
+        "created_at": "2026-11-20T04:37:53.522482+00:00",
+        "duration_ms": null,
+        "payload": {
+          "tools": [
+            "search_jobs"
+          ],
+          "missing_count": 0,
+          "reason_code": "plan_ready",
+          "reason": "확인된 의도와 입력으로 실행 순서를 정했습니다.",
+          "seq": 7
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:53.525483+00:00",
+        "duration_ms": 3,
+        "payload": {
+          "stage": "plan",
+          "status": "completed",
+          "seq": 8
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:53.529483+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "execute",
+          "seq": 9
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "tool_requested",
+        "created_at": "2026-11-20T04:37:53.533183+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "execute",
+          "tool": "search_jobs",
+          "call_id": "21e2833516bf4f85b321ea0285c7bdae",
+          "argument_fields": [
+            "employment_type",
+            "keyword",
+            "limit",
+            "refresh",
+            "region",
+            "source"
+          ],
+          "arguments": {
+            "limit": 1,
+            "refresh": true,
+            "source": "alio"
+          },
+          "source": "alio",
+          "seq": 10
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "tool_finished",
+        "created_at": "2026-11-20T04:38:02.305372+00:00",
+        "duration_ms": 8768,
+        "payload": {
+          "stage": "execute",
+          "tool": "search_jobs",
+          "call_id": "21e2833516bf4f85b321ea0285c7bdae",
+          "status": "ok",
+          "source_results": [],
+          "data_source": "external_api",
+          "source": "alio",
+          "count": 1,
+          "job_ids": [
+            39
+          ],
+          "seq": 11
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:38:02.308724+00:00",
+        "duration_ms": 8775,
+        "payload": {
+          "stage": "execute",
+          "status": "completed",
+          "seq": 12
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:38:02.312753+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "evaluate",
+          "seq": 13
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "constraint_decided",
+        "created_at": "2026-11-20T04:38:02.315753+00:00",
+        "duration_ms": null,
+        "payload": {
+          "search_status": "ok",
+          "deadline_status": "not_requested",
+          "candidate_count": 1,
+          "eligible_count": 1,
+          "unmet_count": 0,
+          "unknown_count": 0,
+          "should_replan": false,
+          "reason_code": "deadline_not_requested",
+          "reason": "마감 조건이 없어 마감 제약을 적용하지 않았습니다.",
+          "seq": 14
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:38:02.318753+00:00",
+        "duration_ms": 3,
+        "payload": {
+          "stage": "evaluate",
+          "status": "completed",
+          "seq": 15
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "route_decided",
+        "created_at": "2026-11-20T04:38:02.320590+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "evaluate",
+          "next_stage": "respond",
+          "reason_code": "ready_to_respond",
+          "reason": "확보한 결과와 확인하지 못한 내용을 응답합니다.",
+          "seq": 16
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:38:02.320590+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "respond",
+          "seq": 17
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:38:04.215343+00:00",
+        "duration_ms": 1885,
+        "payload": {
+          "stage": "respond",
+          "status": "completed",
+          "seq": 18
+        }
+      },
+      {
+        "session_id": "live-submission",
+        "run_id": "9fb0866025c045d4a8a221f49828c4cb",
+        "event_type": "run_finished",
+        "created_at": "2026-11-20T04:38:04.221712+00:00",
+        "duration_ms": 12049,
+        "payload": {
+          "status": "completed",
+          "seq": 19
+        }
+      }
+    ],
+    "reference_status": "current",
+    "plan_draft": null,
+    "source_results": [],
+    "fit_follow_up": null
+  }
+}

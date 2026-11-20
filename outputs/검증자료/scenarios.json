@@ -1,0 +1,182 @@
+[
+  {
+    "case": "S01",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S01",
+      "message": "단회충족 정상 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "마감 조건 충족 공고 1건 / 재계획 0회",
+    "http_status": 200,
+    "duration_seconds": 0.165,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S02",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S02",
+      "message": "재계획 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "1→11건 확장 / 1회 후 충족",
+    "http_status": 200,
+    "duration_seconds": 0.124,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S03",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S03",
+      "message": "한도 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "1→11→21건 / 최대 2회 후 종료",
+    "http_status": 200,
+    "duration_seconds": 0.17,
+    "model_fixture_calls": 1,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S04",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S04",
+      "message": "Tool 실패 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "검색 성공 후 상세 실패 / 응답 완료",
+    "http_status": 200,
+    "duration_seconds": 0.102,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S05",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S05",
+      "message": "안녕하세요 인사",
+      "assess_fit": false
+    },
+    "expected": "Tool 0회",
+    "http_status": 200,
+    "duration_seconds": 0.043,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S06",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S06",
+      "message": "백엔드 공고 검색 0건",
+      "assess_fit": false
+    },
+    "expected": "정상 0건 / 마감 미충족 문구 없음 / 추천 검색어",
+    "http_status": 200,
+    "duration_seconds": 0.085,
+    "model_fixture_calls": 1,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S07",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S07",
+      "message": "구독자 없음 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "저장 구독자 없이 응답 완료",
+    "http_status": 200,
+    "duration_seconds": 0.015,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S08",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S08",
+      "message": "저장 실패 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "저장 장애에도 응답 완료",
+    "http_status": 200,
+    "duration_seconds": 0.016,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S09",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S09",
+      "message": "API 키 누락",
+      "assess_fit": false
+    },
+    "expected": "503 / 안전한 키 설정 안내",
+    "http_status": 503,
+    "duration_seconds": 0.003,
+    "model_fixture_calls": 0,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S10",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-S10",
+      "message": "2026년 10월 1일 기준 진행 중이었던 공고 검색",
+      "assess_fit": false
+    },
+    "expected": "지원하지 않는 기준일 / Tool 0회",
+    "http_status": 200,
+    "duration_seconds": 0.047,
+    "model_fixture_calls": 1,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S11A",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-followup",
+      "message": "강원 정규직 약사 공고 1건",
+      "assess_fit": false
+    },
+    "expected": "강원 약사 정규직 1건",
+    "http_status": 200,
+    "duration_seconds": 0.082,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  },
+  {
+    "case": "S11B",
+    "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+    "request": {
+      "session_id": "qa-followup",
+      "message": "서울로만 바꿔줘",
+      "assess_fit": false
+    },
+    "expected": "같은 세션 / 다른 run / 나머지 조건 유지",
+    "http_status": 200,
+    "duration_seconds": 0.084,
+    "model_fixture_calls": 2,
+    "logging_model_calls": 0,
+    "passed": true
+  }
+]

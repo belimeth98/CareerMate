@@ -266,7 +266,7 @@ class ExecutionLoggingTests(unittest.TestCase):
     def test_fit_detail_call_is_logged_and_retained_in_tool_history(self):
         detail = FakeTool(lambda args: {"ok": True, "data": {**job(), "required_qualifications": []}})
         fit = {
-            "current": {"score": 65, "eligibility": "unknown"},
+            "current": {"score": 65, "assessed_weight": 65, "eligibility": "unknown"},
             "future": {"score": 65, "eligibility": "unknown"},
             "applied_plans": [], "criteria": {"other_preferred": []},
         }

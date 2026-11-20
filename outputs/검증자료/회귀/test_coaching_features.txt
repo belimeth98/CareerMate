@@ -1,0 +1,39 @@
+C:\Users\SSAFY\Desktop\CareerMate\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_additional_experience_in_main_chat_becomes_reviewable_draft (test_coaching_features.PreparationTests.test_additional_experience_in_main_chat_becomes_reviewable_draft) ... ok
+test_capture_reads_reviewable_draft_without_db_writes (test_coaching_features.PreparationTests.test_capture_reads_reviewable_draft_without_db_writes) ... ok
+test_capture_rejects_remote_url_before_model (test_coaching_features.PreparationTests.test_capture_rejects_remote_url_before_model) ... ok
+test_coach_draft_is_not_saved_until_user_confirms (test_coaching_features.PreparationTests.test_coach_draft_is_not_saved_until_user_confirms) ... ok
+test_common_no_experience_phrases_disclose_after_question (test_coaching_features.PreparationTests.test_common_no_experience_phrases_disclose_after_question) ... ok
+test_experience_skills_and_star_are_used_in_evaluation (test_coaching_features.PreparationTests.test_experience_skills_and_star_are_used_in_evaluation) ... ok
+test_experience_update_delete_and_owner_scope (test_coaching_features.PreparationTests.test_experience_update_delete_and_owner_scope) ... ok
+test_future_growth_plan_uses_user_provided_deadline (test_coaching_features.PreparationTests.test_future_growth_plan_uses_user_provided_deadline) ... ok
+test_image_failure_is_safe_and_manual_entry_still_works (test_coaching_features.PreparationTests.test_image_failure_is_safe_and_manual_entry_still_works) ... ok
+test_invalid_experience_date_does_not_save (test_coaching_features.PreparationTests.test_invalid_experience_date_does_not_save) ... ok
+test_it_broad_search_includes_ncs_information_jobs (test_coaching_features.PreparationTests.test_it_broad_search_includes_ncs_information_jobs) ... ok
+test_low_alio_result_not_saved_until_experience_confirmed (test_coaching_features.PreparationTests.test_low_alio_result_not_saved_until_experience_confirmed) ... ok
+test_low_score_is_withheld_in_body_and_events (test_coaching_features.PreparationTests.test_low_score_is_withheld_in_body_and_events) ... ok
+test_natural_none_continues_without_llm_or_action_field (test_coaching_features.PreparationTests.test_natural_none_continues_without_llm_or_action_field) ... ok
+test_new_profile_can_atomically_include_multiple_experiences (test_coaching_features.PreparationTests.test_new_profile_can_atomically_include_multiple_experiences) ... ok
+test_none_discloses_reference_and_preparation_advice (test_coaching_features.PreparationTests.test_none_discloses_reference_and_preparation_advice) ... ok
+test_other_profile_experience_does_not_improve_recheck (test_coaching_features.PreparationTests.test_other_profile_experience_does_not_improve_recheck) ... ok
+test_pending_review_cannot_cross_profile (test_coaching_features.PreparationTests.test_pending_review_cannot_cross_profile) ... ok
+test_period_is_used_without_overwriting_shared_posting (test_coaching_features.PreparationTests.test_period_is_used_without_overwriting_shared_posting) ... ok
+test_recruitment_period_must_be_explicit (test_coaching_features.PreparationTests.test_recruitment_period_must_be_explicit) ... ok
+test_role_words_can_have_other_words_between_them (test_coaching_features.PreparationTests.test_role_words_can_have_other_words_between_them) ... ok
+test_saved_experience_improves_recheck (test_coaching_features.PreparationTests.test_saved_experience_improves_recheck) ... ok
+test_search_zero_suggestions_and_no_automatic_broadening (test_coaching_features.PreparationTests.test_search_zero_suggestions_and_no_automatic_broadening) ... ok
+test_snapshot_membership_is_independent_of_timestamp_collisions (test_coaching_features.PreparationTests.test_snapshot_membership_is_independent_of_timestamp_collisions) ... ok
+test_backend_suggests_it_without_claiming_results (test_coaching_features.SearchTests.test_backend_suggests_it_without_claiming_results) ... ok
+test_empty_plus_failure_is_not_normal_zero (test_coaching_features.SearchTests.test_empty_plus_failure_is_not_normal_zero) ... ok
+test_image_header_limits_and_valid_png (test_coaching_features.SearchTests.test_image_header_limits_and_valid_png) ... ok
+test_image_url_and_wrong_mime_rejected (test_coaching_features.SearchTests.test_image_url_and_wrong_mime_rejected) ... ok
+test_lazy_migration_retains_old_rows (test_coaching_features.SearchTests.test_lazy_migration_retains_old_rows) ... ok
+test_one_failure_retains_other_provider_and_marks_partial (test_coaching_features.SearchTests.test_one_failure_retains_other_provider_and_marks_partial) ... ok
+test_two_normal_empty_results_are_zero (test_coaching_features.SearchTests.test_two_normal_empty_results_are_zero) ... ok
+test_two_sources_interleaved_and_limited (test_coaching_features.SearchTests.test_two_sources_interleaved_and_limited) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 1.363s
+
+OK

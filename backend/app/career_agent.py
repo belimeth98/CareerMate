@@ -1,5 +1,6 @@
 import argparse
 import json
+import re
 import sqlite3
 from datetime import date, datetime
 from functools import wraps
@@ -17,9 +18,13 @@ from backend.app.db.database import PROJECT_ROOT
 from backend.app.db.job_search import KST
 from backend.app.execution_events import EventBus, emit_event, execution_run, safe_error_code
 from backend.app.integrations.gms import build_gms_model
+from backend.app.integrations.incruit_rss import NOTICE as RSS_NOTICE
 from backend.app.match_service import score_posting
+from backend.app.fit_policy import needs_experience
+from backend.app.request_planning import ScheduleFields, make_schedule_draft, reference_from_text
 from backend.app.tools.job_tools import get_job_detail, search_jobs
 from backend.app.tools.public_data_tools import get_cert_schedule, search_ncs_skills
+from backend.app.job_sources import JOB_SOURCES
 
 MAX_REPLANS = 2
 REPLAN_BATCH_SIZE = 10
@@ -46,6 +51,9 @@ class RequestAnalysis(BaseModel):
         description="의도 판단의 짧은 공개 이유 코드. 개인정보나 내부 추론을 쓰지 않는다.",
     )
     keyword: str | None = None
+    reference_query: bool | None = Field(default=None, description="특정 시점에 진행 중이었거나 진행 중일 공고를 묻는 조회. 최소 마감일 조건과 다르다.")
+    reference_date: date | None = Field(default=None, description="공고 진행 여부를 조회하려는 기준일. 마감일 하한이 아니다.")
+    schedule: ScheduleFields | None = Field(default=None, description="지원 준비 일정 생성·변경 요청. 명시되거나 이전 일정에서 확인한 값만 추출.")
     region: str | None = None
     employment_type: str | None = None
     career_type: str | None = None
@@ -64,10 +72,12 @@ class RequestAnalysis(BaseModel):
         "keyword", "region", "employment_type", "career_type", "ncs_category",
         "limit", "deadline_on_or_after", "ncs_code", "year",
         "qualification_type", "qualification_code",
+        "reference_query", "reference_date", "schedule",
     ]] = Field(default_factory=list)
 
 
 class AgentState(TypedDict, total=False):
+    job_source: str
     session_id: str
     run_id: str
     request: str
@@ -88,6 +98,8 @@ class AgentState(TypedDict, total=False):
     replan_stop_reason: str | None
     match_results: list[dict]
     answer: str
+    reference_status: str
+    plan_draft: dict | None
 
 
 def _elapsed_ms(start: int) -> int:
@@ -102,16 +114,21 @@ def tool_outcome(result: dict) -> str:
 
 def _tool_summary(result: dict) -> dict:
     status = tool_outcome(result)
+    source_results = result.get("data", {}).get("source_results", result.get("source_results", []))
     if status != "ok":
-        summary = {"status": status, "error_code": safe_error_code(result["error"]["code"])}
+        summary = {"status": status, "error_code": safe_error_code(result["error"]["code"]), "source_results": source_results}
         if status == "no_result":
             summary["count"] = 0
+        if type(result.get('duplicate_count')) is int:summary['duplicate_count']=result['duplicate_count']
         return summary
 
     data = result["data"]
-    summary = {"status": status}
-    if data.get("data_source") in {"external_api", "cache"}:
+    summary = {"status": status, "source_results": source_results}
+    if data.get("data_source") in {"external_api", "rss", "cache", "mixed"}:
         summary["data_source"] = data["data_source"]
+    if data.get("source") in {"all", *JOB_SOURCES}:
+        summary["source"] = data["source"]
+    if type(data.get('duplicate_count')) is int:summary['duplicate_count']=data['duplicate_count']
     for field in ("jobs", "skills", "schedules"):
         if isinstance(data.get(field), list):
             summary["count"] = len(data[field])
@@ -127,7 +144,7 @@ def _invoke_tool(name: str, args: dict, *, stage: str) -> dict:
     call_id = uuid4().hex
     emit_event(
         "tool_requested", stage=stage, tool=name, call_id=call_id,
-        argument_fields=sorted(args), arguments=args,
+        argument_fields=sorted(args), arguments=args, source=args.get("source"),
     )
     start = perf_counter_ns()
     try:
@@ -161,6 +178,8 @@ def _invoke_tool(name: str, args: dict, *, stage: str) -> dict:
     except (KeyError, TypeError, ValueError):
         result = {"ok": False, "error": {"code": "INVALID_TOOL_RESPONSE", "message": "Tool 응답 형식을 확인하지 못했습니다."}}
         summary = _tool_summary(result)
+    if name == "search_jobs" and args.get("source") in {"all", *JOB_SOURCES}:
+        summary.setdefault("source", args["source"])
     emit_event(
         "tool_finished", stage=stage, tool=name, call_id=call_id,
         duration_ms=_elapsed_ms(start), **summary,
@@ -221,6 +240,7 @@ def make_plan(state: AgentState) -> dict:
         args = {key: data[key] for key in fields if data.get(key) is not None}
         args.setdefault("limit", 20)
         args["refresh"] = True
+        args["source"] = state.get("job_source", "alio")
         plan.append({"tool": "search_jobs", "args": args})
 
     if "get_job_detail" in intents:
@@ -331,7 +351,7 @@ def evaluate(state: AgentState) -> dict:
     should_replan = False
     stop_reason = None
 
-    has_errors = any(tool_outcome(record["result"]) == "error" for record in searches)
+    has_errors = any(tool_outcome(record["result"]) == "error" or record["result"].get("data", {}).get("partial_failure", False) for record in searches)
     if not searches:
         search_status = "not_requested"
     elif has_errors:
@@ -358,6 +378,10 @@ def evaluate(state: AgentState) -> dict:
         "unmet_count": unmet_count,
         "unknown_count": unknown_count,
     }
+    if state.get("job_source") in {"all", "incruit"} and any(job.get("source") == "incruit" for job in jobs_by_id.values()):
+        summary.update(source="incruit", availability_status="unknown",
+                       filter_status="unverified" if (state["analysis"].get("employment_type")
+                                                      or state["analysis"].get("ncs_category")) else "verified")
 
     if minimum and searches and not eligible:
         latest = searches[-1]
@@ -466,6 +490,8 @@ def _no_candidates_answer(state: AgentState) -> str:
         elif record["tool"] != "search_jobs" and tool_outcome(result) == "no_result":
             lines.append(f"{record['tool']} 조회 결과 0건입니다.")
     lines.extend(state.get("missing_inputs", []))
+    if state.get("job_source") == "incruit":
+        lines.append(RSS_NOTICE)
     return "\n".join(lines)
 
 
@@ -485,6 +511,15 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
                 "공고 검색과 상세 자격을 함께 요청하면 search_jobs와 get_job_detail을 선택해. "
                 "keyword는 직무나 검색어, 지역과 고용형태는 별도 필드에 넣어. "
                 "마감이 특정 날짜 이상이어야 한다는 조건은 deadline_on_or_after에 넣어. "
+                "특정 날짜 '기준으로 진행 중이었던/진행 중일' 공고 요청은 reference_query=true, "
+                "reference_date=기준일이다. 기준일을 최소 마감일 deadline_on_or_after로 바꾸지 마. "
+                "오늘의 진행 공고만 조회 가능하며 과거 이력과 미래 진행 여부는 확인할 수 없다. "
+                "지원서 작성·시험 준비 등 일정 생성/변경은 schedule에 제목·구분·날짜·시각을 추출하고 "
+                "별도 조회도 요청하지 않았다면 intents는 빈 목록으로 둬. 시각은 한국 현지 시각이다. "
+                "내일 등 상대 날짜는 오늘을 기준으로 해석해. 날짜만 지정한 일정은 due_date로 표현해. "
+                "시작과 종료가 명시되면 start_date/start_time/end_date/end_time으로 나눠. "
+                "시작 시각만 있으면 종료 시각을 만들지 마. 한 시간 늦춰 달라는 후속 요청은 "
+                "이전 schedule의 날짜·시각으로 계산하고 바뀐 값만 반환해. "
                 "직전 작업을 이어 달라는 요청에만 is_follow_up을 true로 설정해. "
                 "이 경우 이번 요청에서 바뀐 조건만 반환하고, 조건만 바뀌면 intents는 빈 목록으로 둬. "
                 "명시적으로 해제한 조건의 필드명은 clear_fields에 넣어. "
@@ -518,21 +553,52 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
                 updates.pop("intents")
 
             merged.update(updates)
+            if updates.get("schedule") is not None:
+                merged["schedule"] = {**previous["analysis"].get("schedule", {}), **updates["schedule"]}
+                merged["intents"] = analysis.intents
+                if not updates.get("reference_query") and not updates.get("reference_date"):
+                    merged.pop("reference_query", None)
+                    merged.pop("reference_date", None)
+            elif updates.get("intents"):
+                merged.pop("schedule", None)
 
             for field in clear_fields:
                 merged.pop(field, None)
         else:
             merged = updates
 
+        explicit_reference, reference_date = reference_from_text(state["request"], date.fromisoformat(today))
+        if explicit_reference:
+            merged["reference_query"] = True
+            if not re.search(r"마감|접수", state["request"]):
+                previous_minimum = previous["analysis"].get("deadline_on_or_after") if use_previous else None
+                if previous_minimum:
+                    merged["deadline_on_or_after"] = previous_minimum
+                else:
+                    merged.pop("deadline_on_or_after", None)
+            if reference_date is None:
+                merged.pop("reference_date", None)
+            else:
+                merged["reference_date"] = reference_date
+        reference_requested = bool(merged.get("reference_query") or merged.get("reference_date"))
+        unsupported = reference_requested and merged.get("reference_date") != today
+        if merged.get("schedule") is not None:
+            decision_reason = "schedule_requested"
+        if unsupported:
+            decision_reason = "unsupported_reference_date"
+
         return {
             "today": today,
             "analysis": merged,
             "used_previous_context": use_previous,
-            "analysis_reason": "follow_up" if use_previous else decision_reason,
+            "analysis_reason": decision_reason if unsupported else "follow_up" if use_previous else decision_reason,
+            "reference_status": "unsupported_reference_date" if unsupported else "current",
         }
 
     def route_after_analysis(state: AgentState) -> Literal["plan", "respond"]:
         target = "plan" if state["analysis"]["intents"] else "respond"
+        if state.get("reference_status") == "unsupported_reference_date":
+            target = "respond"
         emit_event("route_decided", stage="analyze", next_stage=target, reason_code=state["analysis_reason"])
         return target
 
@@ -561,6 +627,11 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
         for job in _fit_candidates(state):
             job_id = job["id"]
 
+            if job.get("source") == "incruit":
+                emit_event("fit_decided", job_id=job_id, source="incruit", reason_code="user_requirements_needed")
+                matches.append({"job_id": job_id, "title": job["title"], "requires_user_requirements": True})
+                continue
+
             try:
                 detail = details.get(job_id)
                 if detail is None:
@@ -576,7 +647,7 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
                     })
                     continue
 
-                fit = score_posting(model, detail["data"], today, profile_id=profile_id)
+                fit = score_posting(model, detail["data"], today, profile_id=profile_id, defer_low=True)
             except (
                 APIConnectionError, APIStatusError, sqlite3.Error, RuntimeError, ValueError
             ):
@@ -591,12 +662,16 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
                 })
                 continue
 
-            emit_event(
-                "fit_decided", job_id=job_id,
-                current_score=fit["current"]["score"], future_score=fit["future"]["score"],
-                current_eligibility=fit["current"]["eligibility"],
-                future_eligibility=fit["future"]["eligibility"], reason_code="fit_checked",
-            )
+            awaiting_experience = needs_experience(fit)
+            if awaiting_experience:
+                emit_event("fit_decided", job_id=job_id, reason_code="experience_followup_needed")
+            else:
+                emit_event(
+                    "fit_decided", job_id=job_id,
+                    current_score=fit["current"]["score"], future_score=fit["future"]["score"],
+                    current_eligibility=fit["current"]["eligibility"],
+                    future_eligibility=fit["future"]["eligibility"], reason_code="fit_checked",
+                )
             matches.append({
                 "job_id": job_id,
                 "title": job["title"],
@@ -604,13 +679,48 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
                 "future": fit["future"],
                 "applied_plans": fit["applied_plans"],
                 "other_preferred": list(fit["criteria"]["other_preferred"]),
+                "_criteria": fit["criteria"],
+                "requires_experience_follow_up": awaiting_experience,
             })
 
         return {"match_results": matches, "tool_results": records}
 
     def respond(state: AgentState) -> dict:
+        if state.get("reference_status") == "unsupported_reference_date":
+            emit_event("constraint_decided", search_status="not_requested", deadline_status="not_evaluated",
+                       reason_code="unsupported_reference_date")
+            return {"answer": "현재 공고 API는 현재 진행 중인 공고만 제공합니다. 요청하신 과거·미래 기준일의 진행 여부는 확인할 수 없습니다. "
+                    "마감일이 기준일 이후라는 사실만으로 당시 진행 중이었다고 판단하지 않습니다. "
+                    "현재 기준 공고를 원하시면 '오늘 기준으로 찾아줘'라고 요청해 주세요.",
+                    "plan_draft": None}
+        if state["analysis"].get("schedule") is not None:
+            draft, missing = make_schedule_draft(state["analysis"])
+            emit_event("plan_created", stage="respond", missing_count=len(missing),
+                       reason_code="schedule_missing_input" if missing else "schedule_draft_ready")
+            if missing:
+                return {"answer": "일정 초안을 만들려면 다음 내용을 알려 주세요: " + ", ".join(missing) + ".",
+                        "plan_draft": None, "missing_inputs": missing}
+            when = (f"{datetime.fromisoformat(draft['start_at']):%Y-%m-%d %H:%M} ~ "
+                    f"{datetime.fromisoformat(draft['end_at']):%Y-%m-%d %H:%M} (한국 시간)"
+                    if draft["start_at"] else draft["due_date"])
+            return {"answer": f"지원 계획 초안을 준비했습니다.\n제목: {draft['title']}\n일정: {when}\n"
+                    "아직 저장하지 않았습니다. '지원 계획으로 가져오기'를 눌러 내용을 확인한 뒤 저장해 주세요.",
+                    "plan_draft": draft, "missing_inputs": []}
         if "search_jobs" in state["analysis"]["intents"] and not state.get("eligible_jobs"):
             return {"answer": _no_candidates_answer(state)}
+
+        if any(match.get("requires_experience_follow_up") for match in state.get("match_results", [])):
+            return {"answer": "점수보다 먼저 관련 경험을 더 확인하고 준비 방향을 함께 정리하겠습니다."}
+
+        rss_jobs = [job for job in _fit_candidates(state) if job.get("source") == "incruit"]
+        if rss_jobs and len(rss_jobs) == len(_fit_candidates(state)):
+            lines = [f"인크루트 RSS 후보 {len(rss_jobs)}건을 찾았습니다.", RSS_NOTICE]
+            data = state["analysis"]
+            if data.get("employment_type") or data.get("ncs_category"):
+                lines.append("요청한 고용형태·NCS 조건은 RSS에서 확인할 수 없어 충족을 보장하지 않는 참고 후보로 표시합니다.")
+            lines.extend(f"{job['title']}\n원문: {job.get('job_url') or '링크 미확인'}" for job in rss_jobs)
+            lines.append("원문을 확인한 뒤 공고 카드의 '자격요건 입력'을 눌러 필수·우대요건을 채팅에 입력해 주세요.")
+            return {"answer": "\n\n".join(lines)}
 
         evidence = {
             "analysis": state["analysis"],
@@ -636,6 +746,11 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
         answer = model.invoke([
             SystemMessage(content=(
                 "CareerMate 취업지원 도우미로 한국어로 답해. 조회한 공고와 판단 근거는 제공된 데이터만 써. "
+                "검색 공고의 search_match는 공통 직무 검색 근거다. level=related는 NCS 또는 RSS 분야만 일치하는 관련 후보이며 "
+                "구체적인 IT 모집 직무를 확인한 공고라고 단정하지 말고 원문에서 직무 확인이 필요하다고 안내해. "
+                "level=direct도 제목의 표현이 검색 분류와 일치한다는 뜻이며 자격 충족이나 채용 진행 확인을 뜻하지 않는다. "
+                "공고의 unverified_filters에 표시된 고용형태·NCS·경력 조건은 충족을 확인하지 못한 참고 후보라고 안내해. "
+                "Full-time은 근무시간 분류이므로 정규직으로 단정하지 마. Greenhouse·Lever 마감일이 없으면 미확인으로 안내해. "
                 "공고의 출처와 링크가 있으면 알려 줘. "
                 "마감 조건을 요청한 경우에만 충족 여부와 마감일 미확인을 구분해. "
                 "NO_RESULT는 정상 조회 결과 0건이며 Tool 실행 오류와 다르다. "
@@ -643,7 +758,8 @@ def build_graph(model, *, profile_id: int | None = None, demo_fit: bool = False)
                 "공고 검색 추천에는 eligible_jobs의 공고만 사용하고 요청 건수만큼 빈 번호를 채우지 마. "
                 "재계획 종료 사유가 있으면 자연어로 알려 줘. 내부 필드명은 답변에 쓰지 마. "
                 "추가 입력이 필요할 때만 질문하고, 조회 오류가 있어도 확보한 결과는 알려 줘. "
-                "적합도 결과가 있으면 현재 점수, 미래 예상 점수, 확인 배점, 필수조건 판정을 알려 줘. "
+                "목적은 취업 준비 상담이다. 점수 자체를 앞세우지 말고 경험과 연결되는 요건, 확인할 사항, 다음 준비 행동을 안내해. "
+                "점수는 화면의 참고 정보로 제공하므로 사용자가 점수를 요청하지 않으면 답변에서 숫자를 반복하지 마. "
                 "판정 unknown은 추가 확인 필요로 표현하고, 기타 우대조건은 기술 점수와 분리해. "
                 "demo_fit이면 점수는 예시 프로필 기준이라고 밝혀. "
                 "계산에 실패한 공고는 확인하지 못했다고 알려 주고 값을 추측하지 마. "
@@ -687,11 +803,12 @@ class CareerSession:
         self.event_bus = event_bus if event_bus is not None else EventBus()
         self.contexts: dict[str, dict] = {}
 
-    def invoke(self, session_id: str, request: str, *, profile_context: dict | None = None) -> AgentState:
+    def invoke(self, session_id: str, request: str, *, profile_context: dict | None = None, job_source: str = "all") -> AgentState:
         with execution_run(self.event_bus, session_id) as publisher:
             state: AgentState = {
                 "request": request, "session_id": session_id, "run_id": publisher.run_id,
                 "profile_context": profile_context,
+                "job_source": job_source,
             }
             if session_id in self.contexts:
                 state["previous_context"] = self.contexts[session_id]
@@ -700,7 +817,7 @@ class CareerSession:
             emit_event("run_started")
             try:
                 result = self.graph.invoke(state)
-                if result["analysis"]["intents"]:
+                if result["analysis"]["intents"] or result["analysis"].get("schedule") is not None:
                     jobs = _fit_candidates(result)
                     self.contexts[session_id] = {
                         "request": request,

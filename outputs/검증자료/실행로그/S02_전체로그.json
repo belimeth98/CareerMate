@@ -1,0 +1,443 @@
+[
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "run_started",
+    "created_at": "2026-11-20T04:37:50.812742+00:00",
+    "duration_ms": null,
+    "payload": {
+      "seq": 1
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.817009+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "analyze",
+      "seq": 2
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "intent_decided",
+    "created_at": "2026-11-20T04:37:50.821012+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "analyze",
+      "intents": [
+        "search_jobs"
+      ],
+      "used_previous_context": false,
+      "reason_code": "tool_request",
+      "reason": "요청을 처리할 조회 도구가 필요합니다.",
+      "seq": 3
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.824011+00:00",
+    "duration_ms": 3,
+    "payload": {
+      "stage": "analyze",
+      "status": "completed",
+      "intents": [
+        "search_jobs"
+      ],
+      "used_previous_context": false,
+      "reason_code": "tool_request",
+      "reason": "요청을 처리할 조회 도구가 필요합니다.",
+      "seq": 4
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "route_decided",
+    "created_at": "2026-11-20T04:37:50.827984+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "analyze",
+      "next_stage": "plan",
+      "reason_code": "tool_request",
+      "reason": "요청을 처리할 조회 도구가 필요합니다.",
+      "seq": 5
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.827984+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "plan",
+      "seq": 6
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "plan_created",
+    "created_at": "2026-11-20T04:37:50.833092+00:00",
+    "duration_ms": null,
+    "payload": {
+      "tools": [
+        "search_jobs"
+      ],
+      "missing_count": 0,
+      "reason_code": "plan_ready",
+      "reason": "확인된 의도와 입력으로 실행 순서를 정했습니다.",
+      "seq": 7
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.833092+00:00",
+    "duration_ms": 3,
+    "payload": {
+      "stage": "plan",
+      "status": "completed",
+      "seq": 8
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.842770+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "execute",
+      "seq": 9
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "tool_requested",
+    "created_at": "2026-11-20T04:37:50.846032+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "execute",
+      "tool": "search_jobs",
+      "call_id": "0607ca2436cb48f59de428d78201bee2",
+      "argument_fields": [
+        "keyword",
+        "limit",
+        "refresh",
+        "region",
+        "source"
+      ],
+      "arguments": {
+        "limit": 1,
+        "refresh": true,
+        "source": "all"
+      },
+      "source": "all",
+      "seq": 10
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "tool_finished",
+    "created_at": "2026-11-20T04:37:50.849871+00:00",
+    "duration_ms": 0,
+    "payload": {
+      "stage": "execute",
+      "tool": "search_jobs",
+      "call_id": "0607ca2436cb48f59de428d78201bee2",
+      "status": "ok",
+      "source_results": [],
+      "count": 1,
+      "job_ids": [
+        900001
+      ],
+      "source": "all",
+      "seq": 11
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.853875+00:00",
+    "duration_ms": 7,
+    "payload": {
+      "stage": "execute",
+      "status": "completed",
+      "seq": 12
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.857305+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "evaluate",
+      "seq": 13
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "constraint_decided",
+    "created_at": "2026-11-20T04:37:50.860305+00:00",
+    "duration_ms": null,
+    "payload": {
+      "search_status": "ok",
+      "deadline_status": "unmet",
+      "candidate_count": 1,
+      "eligible_count": 0,
+      "unmet_count": 1,
+      "unknown_count": 0,
+      "should_replan": true,
+      "reason_code": "deadline_checked",
+      "reason": "조회된 마감일로 요청한 마감 조건을 판단했습니다.",
+      "seq": 14
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.861305+00:00",
+    "duration_ms": 3,
+    "payload": {
+      "stage": "evaluate",
+      "status": "completed",
+      "seq": 15
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "route_decided",
+    "created_at": "2026-11-20T04:37:50.864995+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "evaluate",
+      "next_stage": "replan",
+      "reason_code": "expand_candidates",
+      "reason": "같은 조건의 후보 범위를 넓혀 마감 조건을 다시 확인합니다.",
+      "seq": 16
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.864995+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "replan",
+      "seq": 17
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "replan_requested",
+    "created_at": "2026-11-20T04:37:50.864995+00:00",
+    "duration_ms": null,
+    "payload": {
+      "replan_count": 1,
+      "before_limit": 1,
+      "after_limit": 11,
+      "reason_code": "expand_candidates",
+      "reason": "같은 조건의 후보 범위를 넓혀 마감 조건을 다시 확인합니다.",
+      "seq": 18
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.878167+00:00",
+    "duration_ms": 3,
+    "payload": {
+      "stage": "replan",
+      "status": "completed",
+      "seq": 19
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.878167+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "execute",
+      "seq": 20
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "tool_requested",
+    "created_at": "2026-11-20T04:37:50.883398+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "execute",
+      "tool": "search_jobs",
+      "call_id": "2deebcc620d44e9690904e6bee4650ac",
+      "argument_fields": [
+        "keyword",
+        "limit",
+        "refresh",
+        "region",
+        "source"
+      ],
+      "arguments": {
+        "limit": 11,
+        "refresh": false,
+        "source": "all"
+      },
+      "source": "all",
+      "seq": 21
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "tool_finished",
+    "created_at": "2026-11-20T04:37:50.883398+00:00",
+    "duration_ms": 0,
+    "payload": {
+      "stage": "execute",
+      "tool": "search_jobs",
+      "call_id": "2deebcc620d44e9690904e6bee4650ac",
+      "status": "ok",
+      "source_results": [],
+      "count": 11,
+      "job_ids": [
+        900001,
+        900002,
+        900003,
+        900004,
+        900005,
+        900006,
+        900007,
+        900008,
+        900009,
+        900010,
+        900011
+      ],
+      "source": "all",
+      "seq": 22
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.883398+00:00",
+    "duration_ms": 6,
+    "payload": {
+      "stage": "execute",
+      "status": "completed",
+      "seq": 23
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.896825+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "evaluate",
+      "seq": 24
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "constraint_decided",
+    "created_at": "2026-11-20T04:37:50.899824+00:00",
+    "duration_ms": null,
+    "payload": {
+      "search_status": "ok",
+      "deadline_status": "met",
+      "candidate_count": 11,
+      "eligible_count": 1,
+      "unmet_count": 10,
+      "unknown_count": 0,
+      "should_replan": false,
+      "reason_code": "deadline_checked",
+      "reason": "조회된 마감일로 요청한 마감 조건을 판단했습니다.",
+      "seq": 25
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.903331+00:00",
+    "duration_ms": 3,
+    "payload": {
+      "stage": "evaluate",
+      "status": "completed",
+      "seq": 26
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "route_decided",
+    "created_at": "2026-11-20T04:37:50.907331+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "evaluate",
+      "next_stage": "respond",
+      "reason_code": "ready_to_respond",
+      "reason": "확보한 결과와 확인하지 못한 내용을 응답합니다.",
+      "seq": 27
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_started",
+    "created_at": "2026-11-20T04:37:50.911332+00:00",
+    "duration_ms": null,
+    "payload": {
+      "stage": "respond",
+      "seq": 28
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "stage_finished",
+    "created_at": "2026-11-20T04:37:50.915404+00:00",
+    "duration_ms": 0,
+    "payload": {
+      "stage": "respond",
+      "status": "completed",
+      "seq": 29
+    }
+  },
+  {
+    "session_id": "qa-S02",
+    "run_id": "5351a3515d184846a3717b92272eeddf",
+    "event_type": "run_finished",
+    "created_at": "2026-11-20T04:37:50.915404+00:00",
+    "duration_ms": 105,
+    "payload": {
+      "status": "completed",
+      "seq": 30
+    }
+  }
+]

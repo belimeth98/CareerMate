@@ -1,0 +1,34 @@
+C:\Users\SSAFY\Desktop\CareerMate\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_alio_search_is_source_scoped (test_incruit_extension.ExtensionTests.test_alio_search_is_source_scoped) ... ok
+test_cache_reused_and_includes_only_snapshot (test_incruit_extension.ExtensionTests.test_cache_reused_and_includes_only_snapshot) ... ok
+test_complete_input_does_not_claim_verified_open (test_incruit_extension.ExtensionTests.test_complete_input_does_not_claim_verified_open) ... ok
+test_confirmation_profile_and_target_required (test_incruit_extension.ExtensionTests.test_confirmation_profile_and_target_required) ... ok
+test_consecutive_submissions_share_session_not_run (test_incruit_extension.ExtensionTests.test_consecutive_submissions_share_session_not_run) ... ok
+test_empty_snapshot_does_not_resurrect_cached_jobs (test_incruit_extension.ExtensionTests.test_empty_snapshot_does_not_resurrect_cached_jobs) ... ok
+test_input_evaluation_is_transient_and_partial_remains_unknown (test_incruit_extension.ExtensionTests.test_input_evaluation_is_transient_and_partial_remains_unknown) ... ok
+test_legacy_database_lazily_adds_snapshot_metadata (test_incruit_extension.ExtensionTests.test_legacy_database_lazily_adds_snapshot_metadata) ... ok
+test_llm_failure_keeps_public_error_and_logs (test_incruit_extension.ExtensionTests.test_llm_failure_keeps_public_error_and_logs) ... ok
+test_logging_failure_does_not_interrupt_evaluation (test_incruit_extension.ExtensionTests.test_logging_failure_does_not_interrupt_evaluation) ... 실행 로그 구독 처리에 실패했습니다. 대화는 계속합니다.
+ok
+test_no_conditions_asks_for_more_and_closes_failed_run (test_incruit_extension.ExtensionTests.test_no_conditions_asks_for_more_and_closes_failed_run) ... ok
+test_raw_input_never_enters_events_or_context (test_incruit_extension.ExtensionTests.test_raw_input_never_enters_events_or_context) ... ok
+test_rss_search_does_not_call_alio (test_incruit_extension.ExtensionTests.test_rss_search_does_not_call_alio) ... ok
+test_search_never_automatically_scores_rss (test_incruit_extension.ExtensionTests.test_search_never_automatically_scores_rss) ... ok
+test_source_switch_does_not_inherit_other_source_conditions (test_incruit_extension.ExtensionTests.test_source_switch_does_not_inherit_other_source_conditions) ... ok
+test_unknown_source_is_rejected (test_incruit_extension.ExtensionTests.test_unknown_source_is_rejected) ... ok
+test_unverifiable_filters_are_disclosed (test_incruit_extension.ExtensionTests.test_unverifiable_filters_are_disclosed) ... ok
+test_unverified_filters_and_availability_are_logged (test_incruit_extension.ExtensionTests.test_unverified_filters_and_availability_are_logged) ... ok
+test_upstream_failure_does_not_write_partial_snapshot_or_fallback (test_incruit_extension.ExtensionTests.test_upstream_failure_does_not_write_partial_snapshot_or_fallback) ... ok
+test_bad_xml_html_and_entities_rejected (test_incruit_extension.FeedTests.test_bad_xml_html_and_entities_rejected) ... ok
+test_collection_deduplicates_across_categories (test_incruit_extension.FeedTests.test_collection_deduplicates_across_categories) ... ok
+test_full_date_preserved_without_assuming_open (test_incruit_extension.FeedTests.test_full_date_preserved_without_assuming_open) ... ok
+test_hiring_until_filled_is_not_invented_date (test_incruit_extension.FeedTests.test_hiring_until_filled_is_not_invented_date) ... ok
+test_untrusted_link_rejected (test_incruit_extension.FeedTests.test_untrusted_link_rejected) ... ok
+test_upstream_timeout_is_explicit (test_incruit_extension.FeedTests.test_upstream_timeout_is_explicit) ... ok
+test_utf8_region_and_unknown_fields (test_incruit_extension.FeedTests.test_utf8_region_and_unknown_fields) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.971s
+
+OK

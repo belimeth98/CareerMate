@@ -3,7 +3,8 @@ from contextlib import closing
 from datetime import datetime, timezone
 
 from backend.app.db.database import connect_db
-from backend.app.workspace_schemas import GrowthInput, PlanInput, PlanPatch, ProfileInput
+from backend.app.db.profile_migrations import ensure_profile_extensions
+from backend.app.workspace_schemas import ExperienceFields, GrowthInput, PlanInput, PlanPatch, ProfileInput
 
 
 class AppProblem(Exception):
@@ -32,12 +33,21 @@ class WorkspaceService:
     def __init__(self, connection_factory=connect_db):
         self.connection_factory = connection_factory
 
+    def _connect(self):
+        db = self.connection_factory()
+        try:
+            ensure_profile_extensions(db)
+        except Exception:
+            db.close()
+            raise
+        return db
+
     def profiles(self):
-        with closing(self.connection_factory()) as db:
+        with closing(self._connect()) as db:
             return {"profiles": [_profile(r) for r in db.execute("SELECT * FROM user_profile ORDER BY id")]}
 
     def profile(self, profile_id):
-        with closing(self.connection_factory()) as db:
+        with closing(self._connect()) as db:
             row = db.execute("SELECT * FROM user_profile WHERE id=?", (profile_id,)).fetchone()
             if row is None:
                 raise missing("프로필")
@@ -45,10 +55,13 @@ class WorkspaceService:
 
     def save_profile(self, data: ProfileInput, profile_id=None):
         values = data.model_dump()
+        initial = values.pop("initial_experiences")
+        if profile_id is not None and initial:
+            raise AppProblem(422, "INITIAL_EXPERIENCES_CREATE_ONLY", "기존 프로필에는 경험 추가 기능을 사용해 주세요.")
         for key in ("preferred_locations", "preferred_employment_types", "skills", "certifications"):
             values[key] = json.dumps(values[key], ensure_ascii=False)
         columns = tuple(values)
-        with closing(self.connection_factory()) as db, db:
+        with closing(self._connect()) as db, db:
             if profile_id is None:
                 profile_id = db.execute(
                     f"INSERT INTO user_profile ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)})",
@@ -61,19 +74,21 @@ class WorkspaceService:
                 ).rowcount
                 if not changed:
                     raise missing("프로필")
+            for experience in initial:
+                self._insert_experience(db, profile_id, ExperienceFields.model_validate(experience))
             row = db.execute("SELECT * FROM user_profile WHERE id=?", (profile_id,)).fetchone()
             return _profile(row)
 
     def growth_plans(self, profile_id):
         self.profile(profile_id)
-        with closing(self.connection_factory()) as db:
+        with closing(self._connect()) as db:
             return {"growth_plans": [_growth(r) for r in db.execute(
                 "SELECT * FROM growth_plan WHERE user_profile_id=? ORDER BY target_date,id", (profile_id,),
             )]}
 
     def save_growth(self, data: GrowthInput):
         self.profile(data.user_profile_id)
-        with closing(self.connection_factory()) as db, db:
+        with closing(self._connect()) as db, db:
             growth_id = db.execute(
                 """INSERT INTO growth_plan (user_profile_id,plan_type,target_name,expected_skills,target_date,status)
                    VALUES (?,?,?,?,?,?)""",
@@ -83,7 +98,7 @@ class WorkspaceService:
             return _growth(db.execute("SELECT * FROM growth_plan WHERE id=?", (growth_id,)).fetchone())
 
     def delete_growth(self, growth_id, profile_id):
-        with closing(self.connection_factory()) as db, db:
+        with closing(self._connect()) as db, db:
             if db.execute("SELECT 1 FROM application_plan WHERE growth_plan_id=?", (growth_id,)).fetchone():
                 raise AppProblem(409, "GROWTH_PLAN_IN_USE", "연결된 지원 일정을 먼저 수정하거나 삭제해 주세요.")
             if not db.execute("DELETE FROM growth_plan WHERE id=? AND user_profile_id=?", (growth_id, profile_id)).rowcount:
@@ -92,14 +107,14 @@ class WorkspaceService:
 
     def plans(self, profile_id):
         self.profile(profile_id)
-        with closing(self.connection_factory()) as db:
+        with closing(self._connect()) as db:
             return {"plans": [dict(row) for row in db.execute(
                 "SELECT * FROM application_plan WHERE user_profile_id=? ORDER BY coalesce(due_date,substr(start_at,1,10)),id",
                 (profile_id,),
             )]}
 
     def plan(self, plan_id, profile_id):
-        with closing(self.connection_factory()) as db:
+        with closing(self._connect()) as db:
             row = db.execute("SELECT * FROM application_plan WHERE id=? AND user_profile_id=?", (plan_id, profile_id)).fetchone()
             if row is None:
                 raise missing("지원 계획")
@@ -112,7 +127,7 @@ class WorkspaceService:
                 values[field] = values[field].astimezone(timezone.utc).isoformat(timespec="microseconds")
         if values["due_date"] is not None:
             values["due_date"] = values["due_date"].isoformat()
-        with closing(self.connection_factory()) as db:
+        with closing(self._connect()) as db:
             # Serialize conflict detection and the write so simultaneous saves see each other.
             db.execute("BEGIN IMMEDIATE")
             try:
@@ -163,7 +178,47 @@ class WorkspaceService:
         return self.save_plan(data, plan_id)
 
     def delete_plan(self, plan_id, profile_id):
-        with closing(self.connection_factory()) as db, db:
+        with closing(self._connect()) as db, db:
             if not db.execute("DELETE FROM application_plan WHERE id=? AND user_profile_id=?", (plan_id, profile_id)).rowcount:
                 raise missing("지원 계획")
         return {"id": plan_id, "deleted": True}
+
+    @staticmethod
+    def _experience_values(data):
+        values = data.model_dump(mode="json")
+        values["skills"] = json.dumps(list(dict.fromkeys(s.strip() for s in values["skills"] if s.strip())), ensure_ascii=False)
+        return values
+
+    @staticmethod
+    def _experience(row):
+        result = dict(row)
+        result["skills"] = json.loads(result.get("skills") or "[]")
+        return result
+
+    def _insert_experience(self, db, profile_id, data):
+        values = {"user_profile_id": profile_id, **self._experience_values(data)}
+        return db.execute(f"INSERT INTO experience ({','.join(values)}) VALUES ({','.join('?' for _ in values)})", tuple(values.values())).lastrowid
+
+    def experiences(self, profile_id):
+        self.profile(profile_id)
+        with closing(self._connect()) as db:
+            return {"experiences": [self._experience(row) for row in db.execute(
+                "SELECT * FROM experience WHERE user_profile_id=? ORDER BY id", (profile_id,))]}
+
+    def save_experience(self, profile_id, data: ExperienceFields, experience_id=None):
+        self.profile(profile_id)
+        with closing(self._connect()) as db, db:
+            if experience_id is None:
+                experience_id = self._insert_experience(db, profile_id, data)
+            else:
+                values = self._experience_values(data)
+                if not db.execute(f"UPDATE experience SET {','.join(k+'=?' for k in values)} WHERE id=? AND user_profile_id=?",
+                                  (*values.values(), experience_id, profile_id)).rowcount:
+                    raise missing("경험")
+            return self._experience(db.execute("SELECT * FROM experience WHERE id=? AND user_profile_id=?", (experience_id, profile_id)).fetchone())
+
+    def delete_experience(self, profile_id, experience_id):
+        with closing(self._connect()) as db, db:
+            if not db.execute("DELETE FROM experience WHERE id=? AND user_profile_id=?", (experience_id, profile_id)).rowcount:
+                raise missing("경험")
+        return {"id": experience_id, "deleted": True}

@@ -1,0 +1,33 @@
+C:\Users\SSAFY\Desktop\CareerMate\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_adjacent_times_do_not_conflict (test_workspace_ui.WorkspaceUITests.test_adjacent_times_do_not_conflict) ... ok
+test_agent_failure_returns_safe_events (test_workspace_ui.WorkspaceUITests.test_agent_failure_returns_safe_events) ... ok
+test_busy_session_is_explicit_409 (test_workspace_ui.WorkspaceUITests.test_busy_session_is_explicit_409) ... ok
+test_chat_followup_keeps_conditions_and_run_ids_differ (test_workspace_ui.WorkspaceUITests.test_chat_followup_keeps_conditions_and_run_ids_differ) ... ok
+test_chat_no_result_and_tool_failure_are_distinct (test_workspace_ui.WorkspaceUITests.test_chat_no_result_and_tool_failure_are_distinct) ... ok
+test_conflict_is_saved_with_list_and_warning (test_workspace_ui.WorkspaceUITests.test_conflict_is_saved_with_list_and_warning) ... ok
+test_cross_midnight_overlap_is_detected (test_workspace_ui.WorkspaceUITests.test_cross_midnight_overlap_is_detected) ... ok
+test_date_only_plan_and_explicit_null_patch (test_workspace_ui.WorkspaceUITests.test_date_only_plan_and_explicit_null_patch) ... ok
+test_greeting_calls_no_tools (test_workspace_ui.WorkspaceUITests.test_greeting_calls_no_tools) ... ok
+test_growth_changes_future_not_current_score (test_workspace_ui.WorkspaceUITests.test_growth_changes_future_not_current_score) ... ok
+test_growth_ownership_and_linked_delete (test_workspace_ui.WorkspaceUITests.test_growth_ownership_and_linked_delete) ... ok
+test_invalid_schedule_and_naive_time_rejected (test_workspace_ui.WorkspaceUITests.test_invalid_schedule_and_naive_time_rejected) ... ok
+test_logging_failure_still_returns_chat_events (test_workspace_ui.WorkspaceUITests.test_logging_failure_still_returns_chat_events) ... 실행 로그 구독 처리에 실패했습니다. 대화는 계속합니다.
+ok
+test_missing_gms_key_does_not_break_plans_or_health (test_workspace_ui.WorkspaceUITests.test_missing_gms_key_does_not_break_plans_or_health) ... ok
+test_missing_job_and_profile_are_rejected (test_workspace_ui.WorkspaceUITests.test_missing_job_and_profile_are_rejected) ... ok
+test_other_profile_and_cancelled_plans_do_not_conflict (test_workspace_ui.WorkspaceUITests.test_other_profile_and_cancelled_plans_do_not_conflict) ... ok
+test_patch_conflict_and_invalid_patch_rollback (test_workspace_ui.WorkspaceUITests.test_patch_conflict_and_invalid_patch_rollback) ... ok
+test_patch_excludes_itself_and_preserves_creation_time (test_workspace_ui.WorkspaceUITests.test_patch_excludes_itself_and_preserves_creation_time) ... ok
+test_plan_ownership_and_delete (test_workspace_ui.WorkspaceUITests.test_plan_ownership_and_delete) ... ok
+test_profile_roundtrip_and_normalized_lists (test_workspace_ui.WorkspaceUITests.test_profile_roundtrip_and_normalized_lists) ... ok
+test_real_fit_tuple_is_serialized_as_json_array (test_workspace_ui.WorkspaceUITests.test_real_fit_tuple_is_serialized_as_json_array) ... ok
+test_response_validation_failure_does_not_expose_private_values (test_workspace_ui.WorkspaceUITests.test_response_validation_failure_does_not_expose_private_values) ... ok
+test_root_and_static_files_are_served (test_workspace_ui.WorkspaceUITests.test_root_and_static_files_are_served) ... ok
+test_simultaneous_overlapping_saves_detect_conflict (test_workspace_ui.WorkspaceUITests.test_simultaneous_overlapping_saves_detect_conflict) ... ok
+test_timed_plan_is_utc_and_has_creation_time (test_workspace_ui.WorkspaceUITests.test_timed_plan_is_utc_and_has_creation_time) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 1.428s
+
+OK

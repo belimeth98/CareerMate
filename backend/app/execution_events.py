@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from threading import RLock
 from uuid import uuid4
+from backend.app.job_sources import JOB_SOURCES
 
 TOOLS = {"search_jobs", "get_job_detail", "search_ncs_skills", "get_cert_schedule"}
 STAGES = {"analyze", "plan", "execute", "evaluate", "replan", "assess_fit", "respond"}
@@ -21,9 +22,21 @@ EVENT_TYPES = {
 ERROR_CODES = {
     "INVALID_INPUT", "TOOL_ERROR", "INVALID_TOOL_RESPONSE", "DATABASE_ERROR",
     "NO_RESULT", "MISSING_API_KEY", "UPSTREAM_TIMEOUT", "UPSTREAM_ERROR",
-    "UPSTREAM_INVALID_RESPONSE", "FIT_ERROR", "AGENT_ERROR",
+    "UPSTREAM_INVALID_RESPONSE", "FIT_ERROR", "AGENT_ERROR", "UPSTREAM_PARTIAL_FAILURE",
+    "CONFIGURATION_ERROR", "DEDUP_REFERENCE_UNAVAILABLE",
 }
 REASONS = {
+    "experience_followup_needed": "점수 안내 전에 관련 경험을 추가로 확인합니다.",
+    "experience_review_completed": "추가 경험 확인을 마치고 준비 방향과 참고 결과를 안내합니다.",
+    "experience_coaching": "제공된 사실로 경험을 정리하고 부족한 내용을 질문합니다.",
+    "image_draft": "캡처에서 읽은 요건과 모집 기간을 검토용 초안으로 준비합니다.",
+    "user_requirements_needed": "RSS 상세 자격은 미확인이므로 원문 확인 후 사용자 입력을 기다립니다.",
+    "user_requirements_received": "사용자가 선택한 공고의 자격요건을 입력하고 원문 확인을 표시했습니다.",
+    "user_requirements_checked": "사용자가 입력한 요건을 기준으로 참고 적합도를 계산했습니다. 원문과의 일치는 검증하지 않았습니다.",
+    "unsupported_reference_date": "요청 기준일의 공고 진행 이력을 확인할 수 없어 조회와 충족 판정을 하지 않았습니다.",
+    "schedule_requested": "사용자가 지정한 일정 조건을 추출했습니다.",
+    "schedule_draft_ready": "입력한 날짜와 시각으로 저장 전 검토할 일정 초안을 구성했습니다.",
+    "schedule_missing_input": "일정 초안에 필요한 날짜·시각 또는 제목이 부족해 추가 입력을 요청합니다.",
     "tool_request": "요청을 처리할 조회 도구가 필요합니다.",
     "follow_up": "후속 요청이므로 이전 조건과 변경 조건을 합쳤습니다.",
     "general_chat": "인사 또는 사용 안내이므로 도구가 필요하지 않습니다.",
@@ -42,12 +55,13 @@ REASONS = {
 ARGUMENT_FIELDS = {
     "keyword", "region", "employment_type", "career_type", "ncs_category", "limit",
     "job_id", "ncs_code", "year", "qualification_type", "qualification_code",
-    "ongoing_only", "page", "page_size", "refresh",
+    "ongoing_only", "page", "page_size", "refresh", "source",
 }
 INTEGER_FIELDS = {
     "seq", "replan_count", "missing_count", "candidate_count", "eligible_count",
     "unmet_count", "unknown_count", "count", "job_id", "before_limit", "after_limit",
     "current_score", "future_score", "assessed_weight",
+    "duplicate_count",
 }
 CHOICES = {
     "stage": STAGES,
@@ -59,7 +73,11 @@ CHOICES = {
     "current_eligibility": {"met", "unmet", "unknown"},
     "future_eligibility": {"met", "unmet", "unknown"},
     "error_code": ERROR_CODES,
-    "data_source": {"external_api", "cache"},
+    "data_source": {"external_api", "rss", "cache", "mixed"},
+    "source": {"all", *JOB_SOURCES},
+    "evidence_source": {"user_submitted"},
+    "filter_status": {"verified", "unverified"},
+    "availability_status": {"unknown"},
 }
 
 
@@ -87,6 +105,11 @@ def _safe_payload(payload: dict) -> dict:
         elif key in {"intents", "tools", "argument_fields"} and isinstance(value, list):
             allowed = ARGUMENT_FIELDS if key == "argument_fields" else TOOLS
             safe[key] = [item for item in value if isinstance(item, str) and item in allowed]
+        elif key == "source_results" and isinstance(value, list):
+            safe[key] = [{"source": row["source"], "status": row["status"],
+                          **({"error_code": safe_error_code(row["error_code"])} if "error_code" in row else {})}
+                         for row in value[:4] if isinstance(row, dict) and row.get("source") in JOB_SOURCES
+                         and row.get("status") in {"ok", "no_result", "error"}]
         elif key == "job_ids" and isinstance(value, list):
             safe[key] = [item for item in value[:100] if type(item) is int and item > 0]
         elif key == "reason_code" and isinstance(value, str) and value in REASONS:
@@ -99,6 +122,8 @@ def _safe_payload(payload: dict) -> dict:
                     if type(argument) is int and argument > 0:
                         arguments[name] = argument
                 elif name in {"ongoing_only", "refresh"} and type(argument) is bool:
+                    arguments[name] = argument
+                elif name == "source" and isinstance(argument, str) and argument in {"all", *JOB_SOURCES}:
                     arguments[name] = argument
                 # All free text and unrecognised fields are excluded before dispatch.
             safe[key] = arguments

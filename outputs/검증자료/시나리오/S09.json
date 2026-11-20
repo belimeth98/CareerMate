@@ -1,0 +1,21 @@
+{
+  "case": "S09",
+  "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+  "request": {
+    "session_id": "qa-S09",
+    "message": "API 키 누락",
+    "assess_fit": false
+  },
+  "expected": "503 / 안전한 키 설정 안내",
+  "http_status": 503,
+  "duration_seconds": 0.003,
+  "model_fixture_calls": 0,
+  "logging_model_calls": 0,
+  "passed": true,
+  "response": {
+    "error": {
+      "code": "MISSING_API_KEY",
+      "message": ".env에 GMS_API_KEY를 설정한 뒤 서버를 다시 시작해 주세요."
+    }
+  }
+}

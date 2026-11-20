@@ -1,0 +1,12 @@
+test_default_calls_external_collector_and_returns_detail_identifiers (test_job_refresh.CandidateRefreshTests.test_default_calls_external_collector_and_returns_detail_identifiers) ... ok
+test_empty_external_snapshot_closes_stale_jobs_and_returns_normal_zero (test_job_refresh.CandidateRefreshTests.test_empty_external_snapshot_closes_stale_jobs_and_returns_normal_zero) ... ok
+test_external_failure_is_an_error_and_preserves_existing_cache (test_job_refresh.CandidateRefreshTests.test_external_failure_is_an_error_and_preserves_existing_cache) ... ok
+test_malformed_external_data_does_not_close_existing_jobs (test_job_refresh.CandidateRefreshTests.test_malformed_external_data_does_not_close_existing_jobs) ... ok
+test_mid_transaction_failure_rolls_back_changes (test_job_refresh.CandidateRefreshTests.test_mid_transaction_failure_rolls_back_changes) ... ok
+test_refresh_keeps_other_sources_and_cached_qualifications (test_job_refresh.CandidateRefreshTests.test_refresh_keeps_other_sources_and_cached_qualifications) ... ok
+test_replan_cache_mode_does_not_call_external_api (test_job_refresh.CandidateRefreshTests.test_replan_cache_mode_does_not_call_external_api) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.107s
+
+OK

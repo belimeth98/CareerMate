@@ -11,6 +11,8 @@ from backend.app.db.database import PROJECT_ROOT
 from backend.app.tools.job_tools import search_jobs
 
 GMS_BASE_URL = "https://gms.ssafy.io/gmsapi/api.openai.com/v1"
+GMS_ANTHROPIC_BASE_URL = "https://gms.ssafy.io/gmsapi/api.anthropic.com/v1"
+DEFAULT_MODEL = "gpt-6-luna"
 
 
 def build_gms_model() -> ChatOpenAI:
@@ -18,13 +20,23 @@ def build_gms_model() -> ChatOpenAI:
     if not api_key:
         raise RuntimeError(".env에 GMS_API_KEY를 설정해 주세요.")
 
+    model = (os.getenv("GMS_MODEL") or DEFAULT_MODEL).strip()
+    default_url = GMS_ANTHROPIC_BASE_URL if model.startswith("claude-") else GMS_BASE_URL
+    options = {}
+    if model == "gpt-6-luna" or model.startswith("gpt-6-luna-"):
+        # CareerMate uses function_calling on Chat Completions. Luna requires
+        # reasoning_effort=none for this combination; do not send it to Claude.
+        options["reasoning_effort"] = "none"
+
     return ChatOpenAI(
-        model=os.getenv("GMS_MODEL", "gpt-4.1"),
+        model=model,
         api_key=api_key,
-        base_url=GMS_BASE_URL,
+        base_url=(os.getenv("GMS_BASE_URL") or default_url).strip(),
+        default_headers={"x-api-key": api_key},
         use_responses_api=False,
         timeout=30,
         max_retries=0,
+        **options,
     )
 
 

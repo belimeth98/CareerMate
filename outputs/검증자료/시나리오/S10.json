@@ -1,0 +1,163 @@
+{
+  "case": "S10",
+  "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+  "request": {
+    "session_id": "qa-S10",
+    "message": "2026년 10월 1일 기준 진행 중이었던 공고 검색",
+    "assess_fit": false
+  },
+  "expected": "지원하지 않는 기준일 / Tool 0회",
+  "http_status": 200,
+  "duration_seconds": 0.047,
+  "model_fixture_calls": 1,
+  "logging_model_calls": 0,
+  "passed": true,
+  "response": {
+    "session_id": "qa-S10",
+    "run_id": "92189470329a4f6e8990bea7c81aa1be",
+    "answer": "현재 공고 API는 현재 진행 중인 공고만 제공합니다. 요청하신 과거·미래 기준일의 진행 여부는 확인할 수 없습니다. 마감일이 기준일 이후라는 사실만으로 당시 진행 중이었다고 판단하지 않습니다. 현재 기준 공고를 원하시면 '오늘 기준으로 찾아줘'라고 요청해 주세요.",
+    "analysis": {
+      "intents": [
+        "search_jobs"
+      ],
+      "keyword": "백엔드",
+      "region": "서울",
+      "limit": 1,
+      "reference_query": true,
+      "reference_date": "2026-10-01"
+    },
+    "used_previous_context": false,
+    "jobs": [],
+    "matches": [],
+    "excluded_jobs": [],
+    "tool_calls": [],
+    "search_summary": null,
+    "replan_count": 0,
+    "events": [
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "run_started",
+        "created_at": "2026-11-20T04:37:51.376725+00:00",
+        "duration_ms": null,
+        "payload": {
+          "seq": 1
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.381424+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "seq": 2
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "intent_decided",
+        "created_at": "2026-11-20T04:37:51.384424+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "intents": [
+            "search_jobs"
+          ],
+          "used_previous_context": false,
+          "reason_code": "unsupported_reference_date",
+          "reason": "요청 기준일의 공고 진행 이력을 확인할 수 없어 조회와 충족 판정을 하지 않았습니다.",
+          "seq": 3
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.387943+00:00",
+        "duration_ms": 3,
+        "payload": {
+          "stage": "analyze",
+          "status": "completed",
+          "intents": [
+            "search_jobs"
+          ],
+          "used_previous_context": false,
+          "reason_code": "unsupported_reference_date",
+          "reason": "요청 기준일의 공고 진행 이력을 확인할 수 없어 조회와 충족 판정을 하지 않았습니다.",
+          "seq": 4
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "route_decided",
+        "created_at": "2026-11-20T04:37:51.391943+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "next_stage": "respond",
+          "reason_code": "unsupported_reference_date",
+          "reason": "요청 기준일의 공고 진행 이력을 확인할 수 없어 조회와 충족 판정을 하지 않았습니다.",
+          "seq": 5
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.396176+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "respond",
+          "seq": 6
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "constraint_decided",
+        "created_at": "2026-11-20T04:37:51.396176+00:00",
+        "duration_ms": null,
+        "payload": {
+          "search_status": "not_requested",
+          "deadline_status": "not_evaluated",
+          "reason_code": "unsupported_reference_date",
+          "reason": "요청 기준일의 공고 진행 이력을 확인할 수 없어 조회와 충족 판정을 하지 않았습니다.",
+          "seq": 7
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.401753+00:00",
+        "duration_ms": 3,
+        "payload": {
+          "stage": "respond",
+          "status": "completed",
+          "seq": 8
+        }
+      },
+      {
+        "session_id": "qa-S10",
+        "run_id": "92189470329a4f6e8990bea7c81aa1be",
+        "event_type": "run_finished",
+        "created_at": "2026-11-20T04:37:51.401753+00:00",
+        "duration_ms": 29,
+        "payload": {
+          "status": "completed",
+          "seq": 9
+        }
+      }
+    ],
+    "reference_status": "unsupported_reference_date",
+    "plan_draft": null,
+    "fit_follow_up": null,
+    "search_suggestions": [],
+    "source_results": [],
+    "experience_draft": null
+  }
+}

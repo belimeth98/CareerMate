@@ -1,0 +1,138 @@
+{
+  "case": "S05",
+  "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+  "request": {
+    "session_id": "qa-S05",
+    "message": "안녕하세요 인사",
+    "assess_fit": false
+  },
+  "expected": "Tool 0회",
+  "http_status": 200,
+  "duration_seconds": 0.043,
+  "model_fixture_calls": 2,
+  "logging_model_calls": 0,
+  "passed": true,
+  "response": {
+    "session_id": "qa-S05",
+    "run_id": "e03a57d0deff49b691286b06ed878967",
+    "answer": "조회한 공고와 Tool 실행 이력을 확인해 주세요. 공고 원문 및 준비할 경험을 바탕으로 다음 지원 계획을 정리할 수 있습니다.",
+    "analysis": {
+      "intents": []
+    },
+    "used_previous_context": false,
+    "jobs": [],
+    "matches": [],
+    "excluded_jobs": [],
+    "tool_calls": [],
+    "search_summary": null,
+    "replan_count": 0,
+    "events": [
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "run_started",
+        "created_at": "2026-11-20T04:37:51.211064+00:00",
+        "duration_ms": null,
+        "payload": {
+          "seq": 1
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.215067+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "seq": 2
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "intent_decided",
+        "created_at": "2026-11-20T04:37:51.218438+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "intents": [],
+          "used_previous_context": false,
+          "reason_code": "general_chat",
+          "reason": "인사 또는 사용 안내이므로 도구가 필요하지 않습니다.",
+          "seq": 3
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.222440+00:00",
+        "duration_ms": 3,
+        "payload": {
+          "stage": "analyze",
+          "status": "completed",
+          "intents": [],
+          "used_previous_context": false,
+          "reason_code": "general_chat",
+          "reason": "인사 또는 사용 안내이므로 도구가 필요하지 않습니다.",
+          "seq": 4
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "route_decided",
+        "created_at": "2026-11-20T04:37:51.225441+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "next_stage": "respond",
+          "reason_code": "general_chat",
+          "reason": "인사 또는 사용 안내이므로 도구가 필요하지 않습니다.",
+          "seq": 5
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.228315+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "respond",
+          "seq": 6
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.228315+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "respond",
+          "status": "completed",
+          "seq": 7
+        }
+      },
+      {
+        "session_id": "qa-S05",
+        "run_id": "e03a57d0deff49b691286b06ed878967",
+        "event_type": "run_finished",
+        "created_at": "2026-11-20T04:37:51.235080+00:00",
+        "duration_ms": 26,
+        "payload": {
+          "status": "completed",
+          "seq": 8
+        }
+      }
+    ],
+    "reference_status": "current",
+    "plan_draft": null,
+    "fit_follow_up": null,
+    "search_suggestions": [],
+    "source_results": [],
+    "experience_draft": null
+  }
+}

@@ -1,0 +1,30 @@
+test_cached_detail_is_not_called_again_during_fit (test_execution_logging.ExecutionLoggingTests.test_cached_detail_is_not_called_again_during_fit) ... ok
+test_concurrent_run_contexts_stay_separate (test_execution_logging.ExecutionLoggingTests.test_concurrent_run_contexts_stay_separate) ... ok
+test_empty_success_response_also_means_zero (test_execution_logging.ExecutionLoggingTests.test_empty_success_response_also_means_zero) ... ok
+test_fit_detail_call_is_logged_and_retained_in_tool_history (test_execution_logging.ExecutionLoggingTests.test_fit_detail_call_is_logged_and_retained_in_tool_history) ... ok
+test_fit_detail_tool_failure_is_recorded_and_response_completes (test_execution_logging.ExecutionLoggingTests.test_fit_detail_tool_failure_is_recorded_and_response_completes) ... ok
+test_follow_up_same_session_different_runs_and_other_session (test_execution_logging.ExecutionLoggingTests.test_follow_up_same_session_different_runs_and_other_session) ... ok
+test_greeting_has_no_tool_calls (test_execution_logging.ExecutionLoggingTests.test_greeting_has_no_tool_calls) ... ok
+test_immutable_events_cannot_be_changed_by_a_subscriber (test_execution_logging.ExecutionLoggingTests.test_immutable_events_cannot_be_changed_by_a_subscriber) ... 실행 로그 구독 처리에 실패했습니다. 대화는 계속합니다.
+ok
+test_logging_storage_failure_does_not_interrupt_conversation (test_execution_logging.ExecutionLoggingTests.test_logging_storage_failure_does_not_interrupt_conversation) ... 실행 로그 구독 처리에 실패했습니다. 대화는 계속합니다.
+ok
+test_malformed_tool_response_still_has_a_finished_event (test_execution_logging.ExecutionLoggingTests.test_malformed_tool_response_still_has_a_finished_event) ... ok
+test_missing_subscribers_do_not_interrupt_conversation (test_execution_logging.ExecutionLoggingTests.test_missing_subscribers_do_not_interrupt_conversation) ... ok
+test_no_candidates_with_deadline_is_not_a_failed_deadline_check (test_execution_logging.ExecutionLoggingTests.test_no_candidates_with_deadline_is_not_a_failed_deadline_check) ... ok
+test_no_result_is_zero_and_never_deadline_failure (test_execution_logging.ExecutionLoggingTests.test_no_result_is_zero_and_never_deadline_failure) ... ok
+test_raw_secrets_and_personal_data_are_removed_before_any_subscriber (test_execution_logging.ExecutionLoggingTests.test_raw_secrets_and_personal_data_are_removed_before_any_subscriber) ... ok
+test_real_sqlite_missing_table_failure_also_continues (test_execution_logging.ExecutionLoggingTests.test_real_sqlite_missing_table_failure_also_continues) ... 실행 로그 구독 처리에 실패했습니다. 대화는 계속합니다.
+ok
+test_replan_expands_same_conditions_at_most_twice (test_execution_logging.ExecutionLoggingTests.test_replan_expands_same_conditions_at_most_twice) ... ok
+test_replan_stops_when_eligible_candidate_is_found (test_execution_logging.ExecutionLoggingTests.test_replan_stops_when_eligible_candidate_is_found) ... ok
+test_search_event_order_timing_and_exact_sqlite_storage (test_execution_logging.ExecutionLoggingTests.test_search_event_order_timing_and_exact_sqlite_storage) ... ok
+test_stage_and_run_failures_close_with_safe_error_events (test_execution_logging.ExecutionLoggingTests.test_stage_and_run_failures_close_with_safe_error_events) ... ok
+test_tool_failures_are_errors_not_zero_results (test_execution_logging.ExecutionLoggingTests.test_tool_failures_are_errors_not_zero_results) ... ok
+test_unknown_deadline_is_distinct_from_unmet (test_execution_logging.ExecutionLoggingTests.test_unknown_deadline_is_distinct_from_unmet) ... ok
+test_unsubscribe_removes_logging_without_affecting_execution (test_execution_logging.ExecutionLoggingTests.test_unsubscribe_removes_logging_without_affecting_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 2.213s
+
+OK

@@ -1,0 +1,50 @@
+[
+  {
+    "file": "test_execution_logging.py",
+    "count": 22,
+    "passed": true,
+    "seconds": 3.474
+  },
+  {
+    "file": "test_job_refresh.py",
+    "count": 7,
+    "passed": true,
+    "seconds": 0.587
+  },
+  {
+    "file": "test_log_api.py",
+    "count": 17,
+    "passed": true,
+    "seconds": 1.861
+  },
+  {
+    "file": "test_workspace_ui.py",
+    "count": 25,
+    "passed": true,
+    "seconds": 2.836
+  },
+  {
+    "file": "test_request_remediation.py",
+    "count": 18,
+    "passed": true,
+    "seconds": 1.737
+  },
+  {
+    "file": "test_incruit_extension.py",
+    "count": 26,
+    "passed": true,
+    "seconds": 2.399
+  },
+  {
+    "file": "test_coaching_features.py",
+    "count": 32,
+    "passed": true,
+    "seconds": 2.792
+  },
+  {
+    "file": "test_gms_model.py",
+    "count": 6,
+    "passed": true,
+    "seconds": 1.164
+  }
+]

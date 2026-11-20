@@ -14,6 +14,7 @@ from backend.app.log_service import LogPayloadError, LogSessionNotFound
 from backend.app.workspace_api import router as workspace_router
 from backend.app.workspace_service import AppProblem
 from backend.app.chat_api import router as chat_router
+from backend.app.coaching_api import router as coaching_router
 
 # main.py → app → backend → CareerMate
 project_root = Path(__file__).resolve().parents[2]
@@ -23,6 +24,7 @@ app = FastAPI(title="CareerMate API")
 app.include_router(log_router)
 app.include_router(workspace_router)
 app.include_router(chat_router)
+app.include_router(coaching_router)
 frontend_path = project_root / "frontend"
 app.mount("/assets", StaticFiles(directory=frontend_path, check_dir=False), name="assets")
 

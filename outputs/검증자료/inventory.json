@@ -1,0 +1,20 @@
+{
+  "project": "CareerMate",
+  "author": "김승희",
+  "reviewer": "김승희",
+  "model": "gpt-6-luna",
+  "checked_at": "2026-11-20T13:31:00.967469+09:00",
+  "source_files": 53,
+  "api_operations": 23,
+  "tool_names": [
+    "search_jobs",
+    "get_job_detail",
+    "search_ncs_skills",
+    "get_cert_schedule"
+  ],
+  "live_db_public_job_counts": {
+    "alio": 560,
+    "incruit": 54
+  },
+  "original_db_unchanged": true
+}

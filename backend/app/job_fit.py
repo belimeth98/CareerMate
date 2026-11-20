@@ -45,7 +45,8 @@ def _compare(profile, job, criteria, skills, certifications, projects, today):
 
     deadline = date.fromisoformat(job["deadline"]) if job["deadline"] else None
     application_open = None
-    if job["is_open"] == 0 or (deadline is not None and deadline < today):
+    not_started = bool(job.get("recruitment_start") and date.fromisoformat(job["recruitment_start"]) > today)
+    if not_started or job["is_open"] == 0 or (deadline is not None and deadline < today):
         application_open = False
     elif job["is_open"] == 1 and deadline is not None:
         application_open = True
@@ -83,7 +84,8 @@ def _compare(profile, job, criteria, skills, certifications, projects, today):
     ]
 
     by_criterion = {
-        "직무": _fraction([_norm(profile["desired_role"]) in _norm(job["title"])], weights["직무"]),
+        "직무": _fraction([all(_norm(term) in _norm(job["title"])
+                            for term in profile["desired_role"].split())], weights["직무"]),
         "필수 기술·자격": _fraction(list(mandatory.values()), weights["필수 기술·자격"]),
         "경력": _fraction([career_ok] if career_ok is not None else [], weights["경력"]),
         "프로젝트": _fraction(project_matches, weights["프로젝트"]),
@@ -107,7 +109,7 @@ def _compare(profile, job, criteria, skills, certifications, projects, today):
 
     blockers = []
     if application_open is False:
-        blockers.append("공고 마감 또는 모집 종료")
+        blockers.append("모집 시작 전" if not_started else "공고 마감 또는 모집 종료")
     if career_ok is False:
         blockers.append(f"요구 경력 {criteria.min_career_months}개월 미충족")
 
@@ -137,6 +139,7 @@ def evaluate_match(
     job_id: int,
     criteria: JobCriteria,
     today: date,
+    *, job_overrides: dict | None = None,
 ) -> dict:
     profile_row = db.execute(
         "SELECT * FROM user_profile WHERE id = ?", (profile_id,)
@@ -150,6 +153,9 @@ def evaluate_match(
 
     profile = dict(profile_row)
     job = dict(job_row)
+    if job_overrides:
+        job.update({key: value for key, value in job_overrides.items()
+                    if key in {"deadline", "recruitment_start", "is_open"}})
     profile["locations"] = json.loads(profile["preferred_locations"])
     profile["employment_types"] = json.loads(profile["preferred_employment_types"])
     job["locations"] = json.loads(job["location"]) if job["location"] else []
@@ -157,16 +163,12 @@ def evaluate_match(
 
     skills = json.loads(profile["skills"])
     certifications = json.loads(profile["certifications"])
-    projects = [
-        " ".join(value or "" for value in row)
-        for row in db.execute(
-            """
-            SELECT title, role, description FROM experience
-            WHERE user_profile_id = ? AND experience_type = 'project'
-            """,
-            (profile_id,),
-        )
-    ]
+    projects = []
+    for row in db.execute("SELECT * FROM experience WHERE user_profile_id=?", (profile_id,)):
+        experience = dict(row)
+        skills.extend(json.loads(experience.get("skills") or "[]"))
+        projects.append(" ".join(experience.get(key) or "" for key in
+                                 ("title", "role", "description", "situation", "task", "action", "result")))
 
     current = _compare(profile, job, criteria, skills, certifications, projects, today)
     applied_plans = []

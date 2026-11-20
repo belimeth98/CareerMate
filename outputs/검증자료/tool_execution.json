@@ -1,0 +1,483 @@
+{
+  "checked_at": "2026-11-20T13:31:00.963359+09:00",
+  "records": [
+    {
+      "case": "T01_ALIO_정상",
+      "tool": "search_jobs",
+      "arguments": {
+        "source": "alio",
+        "keyword": "약사",
+        "region": "강원",
+        "employment_type": "정규직",
+        "limit": 3
+      },
+      "mode": "actual_api",
+      "expected_code": "OK",
+      "actual_code": "OK",
+      "passed": true,
+      "duration_seconds": 9.008,
+      "response": {
+        "ok": true,
+        "data": {
+          "jobs": [
+            {
+              "id": 39,
+              "source": "alio",
+              "board_id": "alio",
+              "source_job_id": "307237",
+              "company": "근로복지공단",
+              "title": "[동해병원] 의료직(약사) 4급 채용 공고",
+              "location": [
+                "강원"
+              ],
+              "employment_type": [
+                "정규직"
+              ],
+              "career_type": [
+                "신입"
+              ],
+              "ncs_categories": [
+                "보건.의료"
+              ],
+              "deadline": "2026-11-30",
+              "is_open": 1,
+              "job_url": "https://www.comwel.or.kr/recruit/hp/main.do",
+              "rss_summary": null
+            }
+          ],
+          "count": 1,
+          "source": "alio",
+          "data_source": "external_api"
+        }
+      }
+    },
+    {
+      "case": "T02_ALIO_식별자상세",
+      "tool": "get_job_detail",
+      "arguments": {
+        "job_id": 39
+      },
+      "mode": "actual_api",
+      "expected_code": "OK",
+      "actual_code": "OK",
+      "passed": true,
+      "duration_seconds": 0.307,
+      "response": {
+        "ok": true,
+        "data": {
+          "id": 39,
+          "source": "alio",
+          "board_id": "alio",
+          "source_job_id": "307237",
+          "company": "근로복지공단",
+          "title": "[동해병원] 의료직(약사) 4급 채용 공고",
+          "deadline": "2026-11-30",
+          "job_url": "https://www.comwel.or.kr/recruit/hp/main.do",
+          "description_html": null,
+          "required_qualifications": [
+            "ㅇ 채용분야 응시자격\r\n- 약사: 약사법상 약사 면허증 소지자\r\n* 모든 전형 응시자격은 응시원서 마감일 기준\r\nㅇ 병역사항: 병역법 제76조에서 정한 병역의무 불이행 사실이 없는 자\r\n※ 현재 군복무 중인 경우 임용예정일 이전 전역이 가능한 자\r\nㅇ 연령요건: 제한없음(단, 임용일 기준 60세 미만(정년)인 자)"
+          ],
+          "preferred_qualifications": [
+            "취업지원대상자"
+          ]
+        }
+      }
+    },
+    {
+      "case": "T03_RSS_정상",
+      "tool": "search_jobs",
+      "arguments": {
+        "source": "incruit",
+        "limit": 2
+      },
+      "mode": "actual_api",
+      "expected_code": "OK",
+      "actual_code": "OK",
+      "passed": true,
+      "duration_seconds": 1.386,
+      "response": {
+        "ok": true,
+        "data": {
+          "jobs": [
+            {
+              "id": 560,
+              "source": "incruit",
+              "board_id": "rss",
+              "source_job_id": "2611200001667",
+              "company": "삼일회계법인",
+              "title": "[삼일회계법인] [삼일회계법인] Energy Transition Team 에너지컨설팅 경력직 채용",
+              "location": [
+                "서울",
+                "용산구"
+              ],
+              "employment_type": null,
+              "career_type": [
+                "경력"
+              ],
+              "ncs_categories": null,
+              "deadline": null,
+              "is_open": null,
+              "job_url": "https://job.incruit.com/jobdb_info/jobpost.asp?job=2611200001667",
+              "rss_summary": "▨ 회사명 : 삼일회계법인  ▨ 경력 : 경력 2년↑  ▨ 학력 : 대졸↑  ▨ 지역 : |서울>용산구  ▨ 마감일 : 채용시  ▨  입사지원현황 보기"
+            },
+            {
+              "id": 561,
+              "source": "incruit",
+              "board_id": "rss",
+              "source_job_id": "2611060001964",
+              "company": "전국렌터카공제조합",
+              "title": "[전국렌터카공제조합] 전국렌터카공제조합 직원 채용",
+              "location": [
+                "서울",
+                "광진구"
+              ],
+              "employment_type": null,
+              "career_type": [
+                "경력무관"
+              ],
+              "ncs_categories": null,
+              "deadline": null,
+              "is_open": null,
+              "job_url": "https://job.incruit.com/jobdb_info/jobpost.asp?job=2611060001964",
+              "rss_summary": "▨ 회사명 : 전국렌터카공제조합  ▨ 경력 : 경력무관  ▨ 학력 : 초대졸↑  ▨ 지역 : |서울>광진구|서울  ▨ 마감일 : 11/22(일)  ▨  입사지원현황 보기"
+            }
+          ],
+          "count": 2,
+          "source": "incruit",
+          "data_source": "rss",
+          "notice": "인크루트 전체·IT·의료 RSS에 노출된 일부 공고입니다. 전체 채용공고 검색이 아닙니다. 진행 상태·고용형태·NCS 분류와 상세 자격은 확인되지 않았습니다. 원문을 확인하고 자격요건을 입력하면 입력한 내용에 근거해 적합도를 평가합니다.",
+          "coverage": "rss_subset",
+          "unverified_filters": []
+        }
+      }
+    },
+    {
+      "case": "T04_RSS_미확인속성",
+      "tool": "get_job_detail",
+      "arguments": {
+        "job_id": 560
+      },
+      "mode": "actual_rss_cache",
+      "expected_code": "OK",
+      "actual_code": "OK",
+      "passed": true,
+      "duration_seconds": 0.001,
+      "response": {
+        "ok": true,
+        "data": {
+          "id": 560,
+          "source": "incruit",
+          "board_id": "rss",
+          "source_job_id": "2611200001667",
+          "company": "삼일회계법인",
+          "title": "[삼일회계법인] [삼일회계법인] Energy Transition Team 에너지컨설팅 경력직 채용",
+          "deadline": null,
+          "job_url": "https://job.incruit.com/jobdb_info/jobpost.asp?job=2611200001667",
+          "description_html": "▨ 회사명 : 삼일회계법인  ▨ 경력 : 경력 2년↑  ▨ 학력 : 대졸↑  ▨ 지역 : |서울>용산구  ▨ 마감일 : 채용시  ▨  입사지원현황 보기",
+          "required_qualifications": null,
+          "preferred_qualifications": null
+        }
+      }
+    },
+    {
+      "case": "T05_NCS_정상",
+      "tool": "search_ncs_skills",
+      "arguments": {
+        "ncs_code": "20010202",
+        "limit": 3
+      },
+      "mode": "actual_api",
+      "expected_code": "OK",
+      "actual_code": "OK",
+      "passed": true,
+      "duration_seconds": 6.443,
+      "response": {
+        "ok": true,
+        "data": {
+          "ncs_code": "20010202",
+          "count": 3,
+          "skills": [
+            {
+              "code": "2001020201_23v5",
+              "name": "요구사항 확인",
+              "definition": "요구사항 확인이란 업무 분석가가 수집･분석･정의한 요구사항과 이에 따른 분석모델에 대해서 확인과 현행 시스템에 대해 분석하는 능력이다.",
+              "level": 5,
+              "version": 5
+            },
+            {
+              "code": "2001020205_23v6",
+              "name": "데이터 입출력 구현",
+              "definition": "데이터 입출력 구현이란 응용소프트웨어가 다루어야 하는 데이터 및 이들 간의 연관성, 제약조건을 식별하여 논리적으로 조직화하고, 소프트웨어 아키텍처에 기술된 데이터저장소에 조직화된 단위의 데이터가 저장될 최적화된 물리적 공간을 구성하고 데이터 조작언어를 이용하여 구현하는 능력이다.",
+              "level": 5,
+              "version": 6
+            },
+            {
+              "code": "2001020206_23v6",
+              "name": "통합 구현",
+              "definition": "통합 구현이란 모듈 간의 분산이 이루어진 경우를 포함하여 단위 모듈 간의 데이터 관계를 분석하여 이를 기반으로 한 메커니즘을 통해 모듈 간의 효율적인 연계를 구현하고 검증하는 능력이다.",
+              "level": 5,
+              "version": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "T06_QNET_정상",
+      "tool": "get_cert_schedule",
+      "arguments": {
+        "year": 2026,
+        "page_size": 3
+      },
+      "mode": "actual_api",
+      "expected_code": "OK",
+      "actual_code": "OK",
+      "passed": true,
+      "duration_seconds": 0.335,
+      "response": {
+        "ok": true,
+        "data": {
+          "page": 1,
+          "total": 74,
+          "schedules": [
+            {
+              "description": "국가기술자격 기능사 (2026년도 제107회)",
+              "round": 107,
+              "written_registration_start": null,
+              "written_registration_end": null,
+              "written_exam_start": null,
+              "written_exam_end": null,
+              "written_result_date": null,
+              "practical_registration_start": "2026-11-27",
+              "practical_registration_end": "2026-11-27",
+              "practical_exam_start": "2026-12-07",
+              "practical_exam_end": "2026-12-16",
+              "practical_result_date": "2026-12-22"
+            },
+            {
+              "description": "국가기술자격 기능사 (2026년도 제106회)",
+              "round": 106,
+              "written_registration_start": null,
+              "written_registration_end": null,
+              "written_exam_start": null,
+              "written_exam_end": null,
+              "written_result_date": null,
+              "practical_registration_start": "2026-10-02",
+              "practical_registration_end": "2026-10-02",
+              "practical_exam_start": "2026-10-12",
+              "practical_exam_end": "2026-10-23",
+              "practical_result_date": "2026-10-29"
+            },
+            {
+              "description": "국가기술자격 기능사 (2026년도 제105회)",
+              "round": 105,
+              "written_registration_start": null,
+              "written_registration_end": null,
+              "written_exam_start": null,
+              "written_exam_end": null,
+              "written_result_date": null,
+              "practical_registration_start": "2026-08-07",
+              "practical_registration_end": "2026-08-07",
+              "practical_exam_start": "2026-08-18",
+              "practical_exam_end": "2026-08-28",
+              "practical_result_date": "2026-09-03"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "T07_검색_잘못된입력",
+      "tool": "search_jobs",
+      "arguments": {
+        "limit": 0
+      },
+      "mode": "input_validation",
+      "expected_code": "INVALID_INPUT",
+      "actual_code": "INVALID_INPUT",
+      "passed": true,
+      "duration_seconds": 0.001,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "limit은 1 이상이어야 합니다."
+        }
+      }
+    },
+    {
+      "case": "T08_상세_잘못된입력",
+      "tool": "get_job_detail",
+      "arguments": {
+        "job_id": 0
+      },
+      "mode": "input_validation",
+      "expected_code": "INVALID_INPUT",
+      "actual_code": "INVALID_INPUT",
+      "passed": true,
+      "duration_seconds": 0.0,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "공고 DB id는 1 이상이어야 합니다."
+        }
+      }
+    },
+    {
+      "case": "T09_NCS_잘못된입력",
+      "tool": "search_ncs_skills",
+      "arguments": {
+        "ncs_code": "invalid"
+      },
+      "mode": "input_validation",
+      "expected_code": "INVALID_INPUT",
+      "actual_code": "INVALID_INPUT",
+      "passed": true,
+      "duration_seconds": 0.0,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "NCS 8자리 코드와 1 이상의 limit이 필요합니다."
+        }
+      }
+    },
+    {
+      "case": "T10_QNET_잘못된입력",
+      "tool": "get_cert_schedule",
+      "arguments": {
+        "year": 0
+      },
+      "mode": "input_validation",
+      "expected_code": "INVALID_INPUT",
+      "actual_code": "INVALID_INPUT",
+      "passed": true,
+      "duration_seconds": 0.0,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "4자리 연도와 1 이상의 페이지·페이지 크기가 필요합니다."
+        }
+      }
+    },
+    {
+      "case": "T11_검색_키누락",
+      "tool": "search_jobs",
+      "arguments": {
+        "source": "alio",
+        "limit": 1
+      },
+      "mode": "credential_removal",
+      "expected_code": "MISSING_API_KEY",
+      "actual_code": "MISSING_API_KEY",
+      "passed": true,
+      "duration_seconds": 0.0,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MISSING_API_KEY",
+          "message": "ALIO_API_KEY가 비어 있습니다."
+        }
+      }
+    },
+    {
+      "case": "T12_상세_키누락",
+      "tool": "get_job_detail",
+      "arguments": {
+        "job_id": 614
+      },
+      "mode": "credential_removal_uncached_record",
+      "expected_code": "MISSING_API_KEY",
+      "actual_code": "MISSING_API_KEY",
+      "passed": true,
+      "duration_seconds": 0.001,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MISSING_API_KEY",
+          "message": "ALIO_API_KEY가 비어 있습니다."
+        }
+      }
+    },
+    {
+      "case": "T13_NCS_키누락",
+      "tool": "search_ncs_skills",
+      "arguments": {
+        "ncs_code": "20010202"
+      },
+      "mode": "credential_removal",
+      "expected_code": "MISSING_API_KEY",
+      "actual_code": "MISSING_API_KEY",
+      "passed": true,
+      "duration_seconds": 0.0,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MISSING_API_KEY",
+          "message": "DATA_GO_KR_KEY를 설정해 주세요."
+        }
+      }
+    },
+    {
+      "case": "T14_QNET_키누락",
+      "tool": "get_cert_schedule",
+      "arguments": {
+        "year": 2026
+      },
+      "mode": "credential_removal",
+      "expected_code": "MISSING_API_KEY",
+      "actual_code": "MISSING_API_KEY",
+      "passed": true,
+      "duration_seconds": 0.0,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MISSING_API_KEY",
+          "message": "DATA_GO_KR_KEY를 설정해 주세요."
+        }
+      }
+    },
+    {
+      "case": "T15_NCS_정상0건",
+      "tool": "search_ncs_skills",
+      "arguments": {
+        "ncs_code": "99999999",
+        "limit": 1
+      },
+      "mode": "actual_api",
+      "expected_code": "NO_RESULT",
+      "actual_code": "UPSTREAM_ERROR",
+      "passed": false,
+      "duration_seconds": 0.672,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UPSTREAM_ERROR",
+          "message": "공공데이터 API가 오류를 반환했습니다."
+        }
+      }
+    },
+    {
+      "case": "T16_QNET_정상0건",
+      "tool": "get_cert_schedule",
+      "arguments": {
+        "year": 2099,
+        "page_size": 1
+      },
+      "mode": "actual_api",
+      "expected_code": "NO_RESULT",
+      "actual_code": "NO_RESULT",
+      "passed": true,
+      "duration_seconds": 0.351,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "NO_RESULT",
+          "message": "조회 조건에 해당하는 시험 일정이 없습니다."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "case": "S07",
+  "mode": "controlled model/provider fixture; original application graph, APIs and UI",
+  "request": {
+    "session_id": "qa-S07",
+    "message": "구독자 없음 공고 검색",
+    "assess_fit": false
+  },
+  "expected": "저장 구독자 없이 응답 완료",
+  "http_status": 200,
+  "duration_seconds": 0.015,
+  "model_fixture_calls": 2,
+  "logging_model_calls": 0,
+  "passed": true,
+  "response": {
+    "session_id": "qa-S07",
+    "run_id": "edb1381f624043f89ba204a371d4ccdb",
+    "answer": "조회한 공고와 Tool 실행 이력을 확인해 주세요. 공고 원문 및 준비할 경험을 바탕으로 다음 지원 계획을 정리할 수 있습니다.",
+    "analysis": {
+      "intents": [
+        "search_jobs"
+      ],
+      "keyword": "백엔드",
+      "region": "서울",
+      "limit": 1
+    },
+    "used_previous_context": false,
+    "jobs": [
+      {
+        "id": 900001,
+        "title": "검증용 백엔드 개발자 공고 1",
+        "company": "고정 데이터 검증기관",
+        "source": "alio",
+        "board_id": "qa",
+        "source_job_id": "1",
+        "location": [
+          "서울"
+        ],
+        "employment_type": [
+          "정규직"
+        ],
+        "career_type": [],
+        "ncs_categories": [],
+        "is_open": 1,
+        "job_url": "https://job.alio.go.kr",
+        "deadline": "2026-12-20"
+      }
+    ],
+    "matches": [],
+    "excluded_jobs": [],
+    "tool_calls": [
+      {
+        "tool": "search_jobs",
+        "status": "ok",
+        "error_code": null
+      }
+    ],
+    "search_summary": {
+      "search_status": "ok",
+      "deadline_status": "not_requested",
+      "candidate_count": 1,
+      "eligible_count": 1,
+      "unmet_count": 0,
+      "unknown_count": 0
+    },
+    "replan_count": 0,
+    "events": [
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "run_started",
+        "created_at": "2026-11-20T04:37:51.340639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "seq": 1
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "seq": 2
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "intent_decided",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "intents": [
+            "search_jobs"
+          ],
+          "used_previous_context": false,
+          "reason_code": "tool_request",
+          "reason": "요청을 처리할 조회 도구가 필요합니다.",
+          "seq": 3
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "analyze",
+          "status": "completed",
+          "intents": [
+            "search_jobs"
+          ],
+          "used_previous_context": false,
+          "reason_code": "tool_request",
+          "reason": "요청을 처리할 조회 도구가 필요합니다.",
+          "seq": 4
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "route_decided",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "analyze",
+          "next_stage": "plan",
+          "reason_code": "tool_request",
+          "reason": "요청을 처리할 조회 도구가 필요합니다.",
+          "seq": 5
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "plan",
+          "seq": 6
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "plan_created",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "tools": [
+            "search_jobs"
+          ],
+          "missing_count": 0,
+          "reason_code": "plan_ready",
+          "reason": "확인된 의도와 입력으로 실행 순서를 정했습니다.",
+          "seq": 7
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "plan",
+          "status": "completed",
+          "seq": 8
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "execute",
+          "seq": 9
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "tool_requested",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "execute",
+          "tool": "search_jobs",
+          "call_id": "c5f0e2633ed348189e6fe9266e611726",
+          "argument_fields": [
+            "keyword",
+            "limit",
+            "refresh",
+            "region",
+            "source"
+          ],
+          "arguments": {
+            "limit": 1,
+            "refresh": true,
+            "source": "all"
+          },
+          "source": "all",
+          "seq": 10
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "tool_finished",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "execute",
+          "tool": "search_jobs",
+          "call_id": "c5f0e2633ed348189e6fe9266e611726",
+          "status": "ok",
+          "source_results": [],
+          "count": 1,
+          "job_ids": [
+            900001
+          ],
+          "source": "all",
+          "seq": 11
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.341639+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "execute",
+          "status": "completed",
+          "seq": 12
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "evaluate",
+          "seq": 13
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "constraint_decided",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": null,
+        "payload": {
+          "search_status": "ok",
+          "deadline_status": "not_requested",
+          "candidate_count": 1,
+          "eligible_count": 1,
+          "unmet_count": 0,
+          "unknown_count": 0,
+          "should_replan": false,
+          "reason_code": "deadline_not_requested",
+          "reason": "마감 조건이 없어 마감 제약을 적용하지 않았습니다.",
+          "seq": 14
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "evaluate",
+          "status": "completed",
+          "seq": 15
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "route_decided",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "evaluate",
+          "next_stage": "respond",
+          "reason_code": "ready_to_respond",
+          "reason": "확보한 결과와 확인하지 못한 내용을 응답합니다.",
+          "seq": 16
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_started",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": null,
+        "payload": {
+          "stage": "respond",
+          "seq": 17
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "stage_finished",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": 0,
+        "payload": {
+          "stage": "respond",
+          "status": "completed",
+          "seq": 18
+        }
+      },
+      {
+        "session_id": "qa-S07",
+        "run_id": "edb1381f624043f89ba204a371d4ccdb",
+        "event_type": "run_finished",
+        "created_at": "2026-11-20T04:37:51.342632+00:00",
+        "duration_ms": 1,
+        "payload": {
+          "status": "completed",
+          "seq": 19
+        }
+      }
+    ],
+    "reference_status": "current",
+    "plan_draft": null,
+    "fit_follow_up": null,
+    "search_suggestions": [],
+    "source_results": [],
+    "experience_draft": null
+  }
+}

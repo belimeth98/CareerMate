@@ -1,0 +1,11 @@
+test_blank_overrides_use_default_model_and_matching_route (test_gms_model.GmsConfigurationTests.test_blank_overrides_use_default_model_and_matching_route) ... ok
+test_claude_uses_anthropic_default_without_openai_reasoning_argument (test_gms_model.GmsConfigurationTests.test_claude_uses_anthropic_default_without_openai_reasoning_argument) ... ok
+test_default_luna_uses_openai_chat_with_no_reasoning (test_gms_model.GmsConfigurationTests.test_default_luna_uses_openai_chat_with_no_reasoning) ... ok
+test_explicit_base_url_is_respected (test_gms_model.GmsConfigurationTests.test_explicit_base_url_is_respected) ... ok
+test_explicit_luna_still_sets_function_calling_compatible_effort (test_gms_model.GmsConfigurationTests.test_explicit_luna_still_sets_function_calling_compatible_effort) ... ok
+test_missing_key_is_explicit (test_gms_model.GmsConfigurationTests.test_missing_key_is_explicit) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+OK

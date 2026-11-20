@@ -14,6 +14,7 @@ from backend.app.db.database import PROJECT_ROOT, connect_db
 from backend.app.db.job_search import KST
 from backend.app.integrations.gms import build_gms_model
 from backend.app.job_fit import JobCriteria, evaluate_match
+from backend.app.fit_policy import needs_experience
 from backend.app.tools.job_tools import get_job_detail
 
 
@@ -189,7 +190,7 @@ def _demo_profile(db: sqlite3.Connection) -> int:
     ).lastrowid
 
 
-def score_posting(model, detail: dict, today: date, *, profile_id: int | None) -> dict:
+def score_posting(model, detail: dict, today: date, *, profile_id: int | None, defer_low: bool = False) -> dict:
     if profile_id is not None:
         with closing(connect_db()) as db:
             profile = db.execute(
@@ -203,9 +204,13 @@ def score_posting(model, detail: dict, today: date, *, profile_id: int | None) -
     with closing(connect_db()) as db:
         db.execute("BEGIN")
         actual_profile_id = profile_id if profile_id is not None else _demo_profile(db)
-        result = evaluate_and_save(db, actual_profile_id, detail["id"], criteria, today)
+        preliminary = evaluate_match(db, actual_profile_id, detail["id"], criteria, today)
+        if defer_low and needs_experience(preliminary):
+            result = {"match_id": None, **preliminary}
+        else:
+            result = evaluate_and_save(db, actual_profile_id, detail["id"], criteria, today)
 
-        if profile_id is None:
+        if profile_id is None or result["match_id"] is None:
             db.rollback()
         else:
             db.commit()

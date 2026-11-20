@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-11-20T13:52:41.104606+09:00",
+  "original_source_files_unchanged": 53,
+  "original_database_unchanged": false,
+  "original_database_note": "실행 중인 원본 DB의 시작/최종 파일 해시가 달라 변경 원인은 단정하지 않음. 시험은 별도 DB 사용. 원본에 시험 세션/프로필/공고가 없음을 확인했으며 원본 DB를 복원하거나 덮어쓰지 않음.",
+  "original_database_qa_records": {
+    "events": 0,
+    "profiles": 0,
+    "jobs": 0
+  },
+  "actual_secret_values_not_detected": true,
+  "source_code_and_env_database_excluded": true,
+  "followup_same_session_different_runs": true,
+  "canonical_logs_complete_and_ordered": true,
+  "spreadsheet_formula_edit_test": "G9 통과→미확인: 24/2, 복원: 25/1",
+  "pdf_visual_review": "모든 문서의 렌더링 페이지 확인; 캡처 이미지 포함 확인",
+  "no_portal_upload_or_git_push": true
+}

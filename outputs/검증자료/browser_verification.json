@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "mode": "original UI and backend; controlled model/provider fixtures; isolated DB",
+  "screenshots": [
+    "00_처리중.png",
+    "11_프로필.png",
+    "12_계획충돌저장.png",
+    "13_계획수정.png",
+    "14_계획삭제.png",
+    "15_로그조회.png",
+    "16_로그삭제.png",
+    "17_Swagger.png",
+    "S01.png",
+    "S02.png",
+    "S03.png",
+    "S04.png",
+    "S05.png",
+    "S06.png",
+    "S09.png"
+  ],
+  "plan_conflict_saved": true,
+  "plan_patch_and_delete": true,
+  "log_delete": true,
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "path": "/api/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/profiles",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/profiles/1/experiences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/growth-plans",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/plans",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/plans",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/plans",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/plans/2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/plans",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/plans/2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs/304d8b83c74d4e92976a72fe866ecf2c",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/logs/304d8b83c74d4e92976a72fe866ecf2c",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/logs",
+      "status": 200
+    }
+  ]
+}

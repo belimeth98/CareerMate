@@ -1,7 +1,16 @@
 BEGIN;
 
+-- Internal RSS snapshot metadata, including a successful empty snapshot.
+CREATE TABLE IF NOT EXISTS job_source_snapshot (
+    source TEXT PRIMARY KEY,
+    fetched_at TEXT NOT NULL,
+    item_count INTEGER NOT NULL CHECK(item_count >= 0),
+    job_ids TEXT NOT NULL DEFAULT '[]'
+);
+
 CREATE TABLE IF NOT EXISTS user_profile (
     id INTEGER PRIMARY KEY,
+    profile_name TEXT,
     desired_role TEXT NOT NULL,
     preferred_locations TEXT NOT NULL DEFAULT '[]',
     preferred_employment_types TEXT NOT NULL DEFAULT '[]',
@@ -24,6 +33,7 @@ CREATE TABLE IF NOT EXISTS job_posting (
     employment_type TEXT,
     career_type TEXT,
     ncs_categories TEXT,
+    rss_categories TEXT NOT NULL DEFAULT '[]',
     deadline TEXT,
     is_open INTEGER CHECK (is_open IN (0, 1)),
     job_url TEXT,
@@ -49,6 +59,7 @@ CREATE TABLE IF NOT EXISTS experience (
     task TEXT,
     action TEXT,
     result TEXT,
+    skills TEXT NOT NULL DEFAULT '[]',
     CHECK (end_date >= start_date)
 );
 

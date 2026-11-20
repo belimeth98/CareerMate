@@ -85,7 +85,6 @@ skills: array<object>
 성공 `data`:
 
 ```text
-count: integer — 현재 페이지 반환 건수
 total: integer — 외부 API 전체 건수
 page: integer
 schedules: array<object>
@@ -101,3 +100,22 @@ schedules: array<object>
 ## 실행 이벤트
 
 요청·응답은 동일한 `call_id`로 연결한다. 응답 상태·건수·식별자·소요 시간과 허용된 오류 코드만 발행한다. `search_jobs`의 성공 이벤트에는 `data_source`를 포함해 외부 갱신과 캐시 재사용을 구분한다. 인증키·사용자 요청·자유 텍스트 인자·원문 응답은 발행하지 않는다.
+
+## 인크루트 RSS 확장
+
+`search_jobs`에 `source: "all" | "alio" | "incruit" | "greenhouse" | "lever"` 선택 입력을 추가했습니다. 기본값은 `alio`입니다. 인크루트 성공 응답에는 `source`, `coverage="rss_subset"`, `notice`, `unverified_filters`를 포함하고 `data_source`는 새 수집이면 `rss`, 캐시이면 `cache`입니다. `get_job_detail`은 RSS 공고에서 외부 상세 페이지를 가져오지 않으며, 미확인 자격은 null로 유지합니다. 상세 정책과 채팅 입력 평가 API는 [인크루트 RSS 설명](incruit_rss.md)을 참고하세요.
+
+
+## 통합 검색
+
+채팅 API와 화면의 기본 출처는 `all`입니다. 저수준 Tool의 기본값 `alio`는 기존 호출 호환성을 위해 유지합니다. `all`은 네 출처를 독립 조회해 결과를 번갈아 합치고 요청 건수만큼 반환합니다. `source_results`에 각 출처의 `ok/no_result/error`를 기록하고, 성공 응답의 `data_source=mixed`로 구분합니다. 일부 실패여도 확보한 공고를 표시합니다. 확보한 공고가 없고 한 출처라도 실패하면 `UPSTREAM_PARTIAL_FAILURE`이며 정상 0건으로 처리하지 않습니다.
+
+## 공통 직무 분류와 검색 근거
+
+`search_jobs`의 jobs 항목에는 원본 `ncs_categories`와 별도의 `rss_categories`(RSS occ1 코드 배열), `search_match`를 반환합니다. `search_match`는 level(direct/related), rank, categories, category_labels, reasons를 담습니다. 제목 직무 일치가 분야 분류만 일치한 후보보다 먼저 정렬됩니다. RSS 분야는 NCS로 바꾸지 않으며 자격/진행 확인으로 해석하지 않습니다. 입력 스키마는 기존과 같습니다. 자세한 규칙은 [공통 검색 기준](search_alignment.md)에 있습니다.
+
+## 국내 기업 Greenhouse·Lever
+
+`search_jobs.source`는 all/alio/incruit/greenhouse/lever이며 기본값은 alio, 채팅 기본값은 all입니다. 기존 4개 Tool 이름은 유지합니다. 추가 출처는 설정된 국내 기업만 수집하며 `get_job_detail`은 제공기관 본문과 원문 링크를 반환합니다. 상세 자격·마감일이 없으면 미확인입니다. 추가 출처의 검색 결과는 수집한 인크루트 RSS 전체 snapshot으로 중복 제거한 뒤 limit을 적용합니다. `duplicate_count`, `dedup_status`, `dedup_scope`, `board_results`와 출처별 실패를 반환합니다. 고용형태·경력·NCS를 확인하지 못한 참고 후보는 jobs[].unverified_filters로 표시합니다.
+
+추가 실패 코드는 CONFIGURATION_ERROR(게시판 설정 오류), DEDUP_REFERENCE_UNAVAILABLE(인크루트 중복 비교 불가)입니다. 인증키가 없는 공개 GET API이며 기존 ALIO/GMS 키 설정을 바꾸지 않습니다. [국내 ATS 설명](ats_sources.md)을 참고하세요.

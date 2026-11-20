@@ -1,0 +1,33 @@
+{
+  "greenhouse": [
+    {
+      "board_id": "krafton",
+      "company": "크래프톤",
+      "country": "KR",
+      "metadata_filters": {
+        "Corp./Studios": [
+          "KRAFTON"
+        ]
+      },
+      "aliases": [
+        "KRAFTON",
+        "KRAFTON Inc.",
+        "주식회사 크래프톤"
+      ],
+      "official_url": "https://www.krafton.com/careers/jobs/"
+    }
+  ],
+  "lever": [
+    {
+      "board_id": "matchgroup",
+      "company": "하이퍼커넥트",
+      "country": "KR",
+      "department": "Hyperconnect",
+      "aliases": [
+        "Hyperconnect",
+        "Hyperconnect LLC"
+      ],
+      "official_url": "https://career.hyperconnect.com/jobs/"
+    }
+  ]
+}
